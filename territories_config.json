@@ -1,0 +1,224 @@
+{
+  "territories": {
+    "Massachusetts": {
+      "type": "territory",
+      "subtype": "None",
+      "has_port": false,
+      "population": 2,
+      "connected_to": ["New York", "New Hampshire", "Boston", "Connecticut - Rhode Island"]
+    },
+    "New York": {
+      "type": "territory",
+      "subtype": "None",
+      "has_port": false,
+      "population": 2,
+      "connected_to": ["Connecticut - Rhode Island", "New Jersey", "Pennsylvania", "Quebec", "New York City", "New Hampshire", "Massachusetts"]
+    },
+    "Virginia": {
+      "type": "territory",
+      "subtype": "None",
+      "has_port": false,
+      "population": 2,
+      "connected_to": ["North Carolina", "Norfolk", "Maryland - Delaware", "Southwest", "Northwest"]
+    },
+    "Pennsylvania": {
+      "type": "territory",
+      "subtype": "None",
+      "has_port": false,
+      "population": 2,
+      "connected_to": ["Maryland - Delaware", "Philadelphia", "New Jersey", "New York", "Northwest"]
+    },
+    "North Carolina": {
+      "type": "territory",
+      "subtype": "None",
+      "has_port": false,
+      "population": 2,
+      "connected_to": ["South Carolina", "Southwest", "Charles Town", "Norfolk", "Virginia"]
+    },
+    "South Carolina": {
+      "type": "territory",
+      "subtype": "None",
+      "has_port": false,
+      "population": 2,
+      "connected_to": ["Georgia", "Savannah", "Charles Town", "North Carolina", "Southwest"]
+    },
+    "Georgia": {
+      "type": "territory",
+      "subtype": "None",
+      "has_port": false,
+      "population": 1,
+      "connected_to": ["Florida", "South Carolina", "Southwest", "Savannah"]
+    },
+    "New Hampshire": {
+      "type": "territory",
+      "subtype": "None",
+      "has_port": false,
+      "population": 1,
+      "connected_to": ["Massachusetts", "Quebec City", "New York", "Quebec"]
+    },
+    "Connecticut - Rhode Island": {
+      "type": "territory",
+      "subtype": "None",
+      "has_port": false,
+      "population": 2,
+      "connected_to": ["Boston", "Massachusetts", "New York"]
+    },
+    "New Jersey": {
+      "type": "territory",
+      "subtype": "None",
+      "has_port": false,
+      "population": 1,
+      "connected_to": ["Philadelphia", "Pennsylvania", "New York City", "New York"]
+    },
+    "Maryland - Delaware": {
+      "type": "territory",
+      "subtype": "None",
+      "has_port": false,
+      "population": 2,
+      "connected_to": ["Virginia", "Philadelphia", "Pennsylvania", "Northwest"]
+    },
+    "Quebec": {
+      "type": "territory",
+      "subtype": "reserve",
+      "has_port": false,
+      "population": 0,
+      "connected_to": ["Quebec City", "Northwest", "Southwest", "New York", "New Hampshire"]
+    },
+    "Florida": {
+      "type": "territory",
+      "subtype": "reserve",
+      "has_port": false,
+      "population": 0,
+      "connected_to": ["Georgia"]
+    },
+    "Northwest": {
+      "type": "territory",
+      "subtype": "reserve",
+      "has_port": false,
+      "population": 0,
+      "connected_to": ["Southwest", "Quebec", "New York", "Pennsylvania", "Maryland - Delaware", "Virginia"]
+    },
+    "Southwest": {
+      "type": "territory",
+      "subtype": "reserve",
+      "has_port": false,
+      "population": 0,
+      "connected_to": ["Georgia", "South Carolina", "North Carolina", "Virginia", "Quebec", "Northwest"]
+    },
+    "Boston": {
+      "type": "city",
+      "subtype": "port_city",
+      "has_port": true,
+      "population": 1,
+      "connected_to": ["Massachusetts", "Connecticut - Rhode Island", "New York City", "Philadelphia", "Norfolk", "Charles Town", "Savannah", "West Indies"]
+    },
+    "New York City": {
+      "type": "city",
+      "subtype": "port_city",
+      "has_port": true,
+      "population": 2,
+      "connected_to": ["New Jersey", "New York", "Boston", "Philadelphia", "Norfolk", "Charles Town", "Savannah", "West Indies"]
+    },
+    "Philadelphia": {
+      "type": "city",
+      "subtype": "port_city",
+      "has_port": true,
+      "population": 1,
+      "connected_to": ["Maryland - Delaware", "New Jersey", "Pennsylvania", "Boston", "New York City", "Norfolk", "Charles Town", "Savannah", "West Indies"]
+    },
+    "Norfolk": {
+      "type": "city",
+      "subtype": "port_city",
+      "has_port": true,
+      "population": 1,
+      "connected_to": ["North Carolina", "Virginia", "Boston", "New York City", "Philadelphia", "Charles Town", "Savannah", "West Indies"]
+    },
+    "Charles Town": {
+      "type": "city",
+      "subtype": "port_city",
+      "has_port": true,
+      "population": 1,
+      "connected_to": ["South Carolina", "North Carolina", "Boston", "New York City", "Philadelphia", "Norfolk", "Savannah", "West Indies"]
+    },
+    "Savannah": {
+      "type": "city",
+      "subtype": "port_city",
+      "has_port": true,
+      "population": 1,
+      "connected_to": ["Georgia", "South Carolina", "Boston", "New York City", "Philadelphia", "Norfolk", "Charles Town", "West Indies"]
+    },
+    "Quebec City": {
+      "type": "city",
+      "subtype": "None",
+      "has_port": false,
+      "population": 1,
+      "connected_to": ["New Hampshire", "Quebec"]
+    },
+    "West Indies": {
+      "type": "city",
+      "subtype": "port_city",
+      "has_port": true,
+      "population": 0,
+      "connected_to": ["Boston", "New York City", "Philadelphia", "Norfolk", "Charles Town", "Savannah"]
+    }
+  },
+  "territory_types": {
+    "colony": {
+      "description": "Colonies américaines indépendantistes",
+      "can_support_patriots": true,
+      "can_support_british": true,
+      "can_build_forts": true,
+      "can_build_militia": true
+    },
+    "city": {
+      "description": "Villes importantes et ports",
+      "strategic_value": "high",
+      "victory_points": true,
+      "can_build_forts": true
+    },
+    "territory": {
+      "description": "Territoires contrôlés par des puissances",
+      "can_support_patriots": false,
+      "strategic_value": "medium"
+    },
+    "reserve": {
+      "description": "Territoires indiens",
+      "can_support_indians": true,
+      "can_build_villages": true,
+      "can_raid": true
+    }
+  },
+  "population_levels": {
+    "0": "Inhabitée/Maritime",
+    "1": "Faible population", 
+    "2": "Population modérée",
+    "3": "Population importante",
+    "4": "Population très importante"
+  },
+  "gameplay_rules": {
+    "port_cities": {
+      "description": "Les villes portuaires permettent le déploiement naval",
+      "special_rules": [
+        "Peuvent recevoir des renforts par mer",
+        "Connectées à West Indies",
+        "Stratégiquement importantes pour les Britanniques"
+      ]
+    },
+    "indian_territories": { 
+      "description": "Territoires indiens avec règles spéciales",
+      "special_rules": [
+        "Peuvent construire des villages",
+        "Peuvent lancer des raids",
+        "Alliés potentiels des Britanniques"
+      ]
+    },
+    "west_indies": {
+      "description": "Zone maritime spéciale", 
+      "special_rules": [
+        "Connecte tous les ports",
+        "Permet le mouvement naval",
+        "Contrôlée par les puissances européennes"
+      ]
+    }
+  }
+}

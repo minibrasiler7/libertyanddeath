@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liberty or Death — Plateau</title>
+<style>
+  :root { --ink:#2b2520; --panel:rgba(255,253,248,.96); --line:#d8cfbf; --accent:#8b2f1f; --brit:#b4332c; --pat:#2f5fa8; --fr:#6b5ca5; --ind:#8a6a2f; }
+  html, body { margin:0; height:100%; overflow:hidden; background:#1d1b18; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color:var(--ink); font-size:14px; }
+  #board { position:absolute; inset:0; width:100%; height:100%; cursor:grab; touch-action:none; }
+  #board.dragging { cursor:grabbing; }
+  #board.piece { cursor:pointer; }
+  .hud { position:absolute; background:var(--panel); border:1px solid var(--line); border-radius:10px; box-shadow:0 4px 18px rgba(0,0,0,.35); }
+  #topbar { top:12px; left:12px; padding:8px 12px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; max-width:calc(100vw - 420px); }
+  #topbar input[type=text] { width:70px; padding:5px 6px; border:1px solid #bbb; border-radius:5px; font-size:14px; }
+  button { background:var(--accent); color:#fff; border:none; border-radius:6px; padding:7px 12px; font-size:13px; cursor:pointer; font-weight:600; }
+  button.sec { background:#6a6259; } button.ok { background:#2d7a3a; } button.small { padding:4px 8px; font-size:12px; } button:disabled { opacity:.5; cursor:default; }
+  #side { top:12px; right:12px; width:380px; max-height:calc(100vh - 24px); display:flex; flex-direction:column; overflow:hidden; }
+  #side .head { padding:10px 14px; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:10px; }
+  #side .head img { width:41px; height:25px; }
+  #side .head b { font-size:15px; }
+  #narr { padding:10px 14px; overflow:auto; flex:1; font-size:13px; line-height:1.4; }
+  #narr .h { font-weight:700; color:var(--accent); margin-top:8px; }
+  #narr .a { font-weight:600; color:#1d4f8a; }
+  #narr .w { color:#a0401d; }
+  #narr .i { color:#444; padding-left:10px; }
+  #narr .cur { background:#fff0c2; border-radius:4px; }
+  #narr img.die { width:22px; height:22px; vertical-align:middle; margin:0 2px; }
+  #ask { padding:10px 14px; border-top:1px solid var(--line); background:#fff4e0; display:none; }
+  #ask .msg { font-weight:600; margin-bottom:8px; }
+  #ask .btns { display:flex; gap:6px; flex-wrap:wrap; }
+  #card { padding:8px 14px; border-top:1px solid var(--line); font-size:12px; display:none; }
+  #card .lbl { font-style:italic; color:#555; } #card .shaded { background:#e4e0d8; padding:4px; border-radius:4px; margin-top:4px; }
+  #card img { float:left; width:90px; margin:0 8px 4px 0; border-radius:4px; }
+  #status { position:absolute; left:12px; bottom:12px; padding:8px 12px; font-size:12px; display:flex; gap:14px; flex-wrap:wrap; max-width:calc(100vw - 420px); }
+  #status b { color:#8b2f1f; }
+  .pill { display:inline-block; padding:1px 7px; border-radius:10px; font-size:11px; color:#fff; }
+  .pill.british{background:var(--brit)} .pill.patriots{background:var(--pat)} .pill.french{background:var(--fr)} .pill.indians{background:var(--ind)}
+  #settings { position:absolute; inset:0; background:rgba(0,0,0,.55); display:none; align-items:center; justify-content:center; }
+  #settings .box { background:#fffdf8; border-radius:10px; padding:18px 22px; width:560px; max-width:92vw; max-height:90vh; overflow:auto; }
+  #settings h2 { margin:0 0 10px; font-size:17px; } #settings h3 { margin:14px 0 6px; font-size:13px; color:#666; text-transform:uppercase; }
+  #settings label { margin-right:10px; }
+  .row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:6px 0; }
+  #speed { width:90px; }
+  #help { font-size:12px; color:#555; line-height:1.5; }
+  .toast { position:absolute; left:50%; top:70px; transform:translateX(-50%); background:#2b2520; color:#ffd27a; padding:8px 14px; border-radius:8px; font-size:13px; opacity:0; transition:opacity .3s; pointer-events:none; }
+</style>
+</head>
+<body>
+<canvas id="board"></canvas>
+
+<div id="topbar" class="hud">
+  <label>Carte <input type="text" id="cardIn" placeholder="n°"></label>
+  <label>suivante <input type="text" id="nextIn" placeholder="n°"></label>
+  <button id="btnPlay" class="ok">Jouer la carte</button>
+  <button id="btnUndo" class="sec small">Annuler la carte</button>
+  <button id="btnSettings" class="sec small">⚙ Partie</button>
+  <label class="small" style="font-size:12px">Vitesse <input type="range" id="speed" min="1" max="10" value="5"></label>
+  <button id="btnZoomIn" class="sec small">＋</button><button id="btnZoomOut" class="sec small">－</button><button id="btnFit" class="sec small">Recentrer</button>
+</div>
+
+<div id="side" class="hud">
+  <div class="head"><img id="headFlag" src="" alt="" style="display:none"><b id="headTitle">Liberty or Death — mode solo</b></div>
+  <div id="narr"><div class="i">Choisis la carte jouée (numéro) en haut à gauche, puis « Jouer la carte ». Déplace les pièces en les faisant glisser ; double-clic sur une Milice ou War Party pour la retourner ; clic sur le marqueur de Support pour changer le niveau ; les marqueurs Raid / Propaganda se glissent depuis la réserve (case Overflow A, en haut de la carte) vers les cases en pointillé R / P des espaces, et se retirent en les glissant hors de l'espace.</div></div>
+  <div id="ask"><div class="msg" id="askMsg"></div><div class="btns" id="askBtns"></div></div>
+  <div id="card"></div>
+</div>
+
+<div id="status" class="hud"></div>
+<div class="toast" id="toast"></div>
+
+<div id="settings">
+  <div class="box">
+    <h2>Partie</h2>
+    <h3>Qui joue quoi ?</h3>
+    <div id="players"></div>
+    <h3>Nouvelle partie</h3>
+    <div class="row">
+      <select id="scenario">
+        <option value="people_numerous_armed">A People Numerous and Armed (1775-1780)</option>
+        <option value="british_return_ny">British Return to New York (1776-1779)</option>
+        <option value="southern_campaign">The Southern Campaign (1778-1780)</option>
+        <option value="empty">Plateau vide</option>
+      </select>
+      <label>Graine <input type="text" id="seed" style="width:90px"></label>
+      <button id="btnNew">Commencer</button>
+    </div>
+    <h3>Sauvegarde</h3>
+    <div class="row"><button class="sec" id="btnExport">Exporter JSON</button><input type="file" id="fileImport" style="display:none"><button class="sec" onclick="document.getElementById('fileImport').click()">Importer JSON</button><a href="solo.html" target="_blank" style="font-size:12px">Vue détaillée (tableau + journal)</a></div>
+    <h3>Pistes (valeurs non déplaçables à la main)</h3>
+    <div class="row" id="tracks"></div>
+    <h3>Aide</h3>
+    <div id="help">
+      Glisser une pièce d'un espace à un autre la déplace ; vers la case Available de sa faction la retire ; vers la case Casualties la met en pertes. Glisser depuis Available (ou Unavailable) vers un espace la place. Les Leaders se déplacent de la même façon. Les cylindres de Ressources et les jetons CBC/CRC se glissent sur la piste. Les cylindres d'éligibilité se glissent entre Eligible et Ineligible. Un Squadron des Antilles glissé sur une Ville devient un Blocus (et inversement). Clic sur le Support d'un espace : change le niveau. Marqueurs Raid / Propaganda : glisser depuis la réserve (en haut de la carte, case Overflow A) vers un espace pour en poser un ; glisser un marqueur hors de l'espace pour le retirer, ou vers un autre espace pour le déplacer. Les cases en pointillé R / P montrent où ils se posent (clic : ajoute, clic droit : retire). Double-clic sur une Milice / War Party : Underground ↔ Active. Molette : zoom ; glisser le fond : déplacer la carte.
+    </div>
+    <div class="row" style="margin-top:12px"><button class="ok" id="btnClose">Fermer</button></div>
+  </div>
+</div>
+
+<script src="engine.js"></script>
+<script src="commands.js"></script>
+<script src="bots.js"></script>
+<script src="events.js"></script>
+<script src="wq.js"></script>
+<script src="cards.js"></script>
+<script src="zones.js"></script>
+<script src="assets.js"></script>
+<script>
+(function () {
+  const { FACTIONS, FR, SPACE_NAMES, CARDS, WI, BOARD, ASSETS, CITIES } = LOD;
+  const $ = id => document.getElementById(id);
+  const cv = $('board'), ctx = cv.getContext('2d');
+  let g = null, gen = null, history = [];
+  let vs = null;             // état visuel (pendant une animation)
+  let animating = false, skipAnim = false;
+  let view = { scale: 0.28, x: 0, y: 0 };
+  let sprites = [];          // sprites dessinés à la dernière image (hit-test)
+  let drag = null;           // { sprite, x, y, dx, dy }
+  let flying = [];           // sprites en vol (animation)
+  let flash = null;          // espace à faire clignoter
+  let cardImgOk = true;
+  const IMG = {}; let imgsLoaded = 0;
+  const mapImg = new Image(); mapImg.src = '../map.jpg'; mapImg.onload = () => draw();
+  for (const k in ASSETS) { const im = new Image(); im.src = ASSETS[k]; im.onload = () => { imgsLoaded++; draw(); }; IMG[k] = im; }
+
+  // ------------------------------------------------------------------ outils
+  const Z = BOARD.spaces; const S = BOARD;
+  const rc = r => ({ x: (r.x1 + r.x2) / 2, y: (r.y1 + r.y2) / 2, w: r.x2 - r.x1, h: r.y2 - r.y1 });
+  const PIECE = { b_reg: { w: 46, h: 52 }, b_tor: { w: 46, h: 52 }, b_fort: { w: 86, h: 62 }, p_cont: { w: 46, h: 52 }, p_milU: { w: 46, h: 67 }, p_milA: { w: 46, h: 67 }, p_fort: { w: 86, h: 62 }, f_reg: { w: 46, h: 52 }, i_wpU: { w: 46, h: 67 }, i_wpA: { w: 46, h: 67 }, i_vil: { w: 86, h: 62 } };
+  const KEYS = ['b_reg', 'b_tor', 'b_fort', 'p_cont', 'p_milU', 'p_milA', 'p_fort', 'f_reg', 'i_wpU', 'i_wpA', 'i_vil'];
+  const KF = { b: 'british', p: 'patriots', f: 'french', i: 'indians' };
+  const keyToFT = k => { const [p, t] = k.split('_'); return { f: KF[p], type: t === 'milU' || t === 'milA' ? 'mil' : t === 'wpU' || t === 'wpA' ? 'wp' : t, sub: t === 'milU' || t === 'wpU' ? 'U' : t === 'milA' || t === 'wpA' ? 'A' : null }; };
+  const ftToKey = (f, type, active) => ({ british: 'b', patriots: 'p', french: 'f', indians: 'i' })[f] + '_' + (type === 'mil' ? (active ? 'milA' : 'milU') : type === 'wp' ? (active ? 'wpA' : 'wpU') : type);
+  const poolKey = { british: ['reg', 'tor', 'fort'], patriots: ['cont', 'mil', 'fort'], french: ['reg'], indians: ['wp', 'vil'] };
+  function toast(m) { const t = $('toast'); t.textContent = m; t.style.opacity = 1; clearTimeout(t._h); t._h = setTimeout(() => t.style.opacity = 0, 2200); }
+  function stateOf() { return vs || g.state; }
+  function clone(o) { return JSON.parse(JSON.stringify(o)); }
+
+  // positions des pièces dans un espace (grille)
+  function spaceCells(n, st) {
+    const z = Z[n]; if (!z) return []; const s = st.spaces[n]; const a = z.armies; const list = [];
+    const push = (key, k) => { for (let i = 0; i < k; i++) list.push(key); };
+    push('b_reg', s.b.reg); push('b_tor', s.b.tor); push('b_fort', s.b.fort); push('p_cont', s.p.cont); push('p_milU', s.p.milU); push('p_milA', s.p.milA); push('p_fort', s.p.fort);
+    push('f_reg', s.f.reg); push('i_wpU', s.i.wpU); push('i_wpA', s.i.wpA); push('i_vil', s.i.vil);
+    const cw = 52, ch = 60; const cols = Math.max(1, Math.floor((a.x2 - a.x1) / cw)); const rows = Math.ceil(list.length / cols); const maxRows = Math.max(1, Math.floor((a.y2 - a.y1) / ch));
+    const stepY = rows > maxRows ? Math.max(14, (a.y2 - a.y1 - ch) / Math.max(1, rows - 1)) : ch;
+    return list.map((key, i) => { const c = i % cols, r = Math.floor(i / cols); const d = PIECE[key]; const sc = d.w > 60 ? 0.6 : 0.95; return { key, x: a.x1 + c * cw + cw / 2, y: a.y1 + r * stepY + ch / 2, w: d.w * sc, h: d.h * sc, idx: i }; });
+  }
+  function boxCells(rect, items, size) { // items : [{key,count,label}] rangés en ligne
+    const out = []; const n = items.length; if (!n) return out; const cw = (rect.x2 - rect.x1) / Math.min(n, 5); let i = 0;
+    for (const it of items) { const col = i % 5, row = Math.floor(i / 5); out.push(Object.assign({ x: rect.x1 + col * cw + cw / 2, y: rect.y1 + 40 + row * 90 + (size || 60) / 2 }, it)); i++; }
+    return out;
+  }
+  function trackCell(kind, v) { const c = S.score[String(Math.max(0, Math.min(50, v)))]; return c ? rc(c[kind]) : null; }
+
+  // ------------------------------------------------------------------ rendu
+  function resize() { cv.width = window.innerWidth; cv.height = window.innerHeight; draw(); }
+  window.addEventListener('resize', resize);
+  function W2S(x, y) { return [x * view.scale + view.x, y * view.scale + view.y]; }
+  function S2W(x, y) { return [(x - view.x) / view.scale, (y - view.y) / view.scale]; }
+  function drawImg(key, x, y, w, h) { const im = IMG[key]; if (im && im.complete && im.naturalWidth) ctx.drawImage(im, x - w / 2, y - h / 2, w, h); else { ctx.fillStyle = '#999'; ctx.fillRect(x - w / 2, y - h / 2, w, h); } }
+  function badge(x, y, txt, color) { ctx.font = 'bold 26px sans-serif'; const w = ctx.measureText(txt).width + 16; ctx.fillStyle = color || '#2b2520'; ctx.beginPath(); ctx.roundRect(x - w / 2, y - 17, w, 34, 8); ctx.fill(); ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.fillText(txt, x, y + 9); ctx.textAlign = 'left'; }
+  function label(x, y, txt, size, color) { ctx.font = `bold ${size || 24}px sans-serif`; ctx.fillStyle = color || '#222'; ctx.fillText(txt, x, y); }
+  function draw() {
+    if (!g) return; const st = stateOf(); sprites = [];
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.fillStyle = '#1d1b18'; ctx.fillRect(0, 0, cv.width, cv.height);
+    ctx.setTransform(view.scale, 0, 0, view.scale, view.x, view.y);
+    if (mapImg.complete && mapImg.naturalWidth) ctx.drawImage(mapImg, 0, 0); else { ctx.fillStyle = '#e8e0cc'; ctx.fillRect(0, 0, 2500, 3864); }
+    const add = sp => { sprites.push(sp); return sp; };
+    // --- espaces
+    for (const n of SPACE_NAMES) {
+      const z = Z[n]; if (!z) continue; const s = st.spaces[n]; const a = z.armies;
+      if (flash === n) { ctx.fillStyle = 'rgba(255,60,30,.35)'; ctx.fillRect(a.x1 - 10, a.y1 - 10, a.x2 - a.x1 + 20, a.y2 - a.y1 + 20); }
+      for (const c of spaceCells(n, st)) { if (drag && drag.sprite.kind === 'piece' && drag.sprite.space === n && drag.sprite.key === c.key && drag.sprite.idx === c.idx) continue; if (hidden && hidden.n === n && hidden.idx === c.idx) continue; drawImg(c.key, c.x, c.y, c.w, c.h); add({ kind: 'piece', space: n, key: c.key, idx: c.idx, x: c.x, y: c.y, w: c.w, h: c.h }); }
+      // leaders
+      let li = 0; for (const f of FACTIONS) { const L = st.leaders[f]; if (L.loc !== n) continue; if (drag && drag.sprite.kind === 'leader' && drag.sprite.f === f) continue; const x = a.x2 - 36 - li * 72, y = a.y2 - 36; drawImg('L_' + L.name, x, y, 68, 68); add({ kind: 'leader', f, x, y, w: 68, h: 68, space: n }); li++; }
+      // support
+      if (z.support && LOD.SPACES[n].pop > 0) { const c = rc(z.support); if (s.sup !== 0) drawImg('sup' + s.sup, c.x, c.y, 66, 66); add({ kind: 'support', space: n, x: c.x, y: c.y, w: c.w, h: c.h }); }
+      // contrôle
+      const ctl = (vs ? ctlOf(vs, n) : g.control(n)); if (z.control) { const c = rc(z.control); if (ctl) drawImg('ctl_' + ctl, c.x, c.y, 72, 72); }
+      // marqueurs
+      for (const [kind, zone] of [['raid', z.raid], ['prop', z.propaganda]]) {
+        if (!zone || LOD.SPACES[n].pop === 0) continue; const c = rc(zone); const cnt = s[kind] - (drag && drag.sprite.kind === kind && drag.sprite.space === n ? 1 : 0);
+        if (cnt > 0) { drawImg(kind, c.x, c.y, 70, 70); if (cnt > 1) badge(c.x + 26, c.y - 24, String(cnt)); }
+        else { ctx.save(); ctx.setLineDash([8, 6]); ctx.strokeStyle = kind === 'raid' ? 'rgba(140,60,20,.7)' : 'rgba(30,80,140,.7)'; ctx.lineWidth = 3; ctx.strokeRect(c.x - 33, c.y - 33, 66, 66); ctx.restore(); ctx.font = 'bold 30px sans-serif'; ctx.fillStyle = kind === 'raid' ? 'rgba(140,60,20,.6)' : 'rgba(30,80,140,.6)'; ctx.textAlign = 'center'; ctx.fillText(kind === 'raid' ? 'R' : 'P', c.x, c.y + 11); ctx.textAlign = 'left'; }
+        add({ kind, space: n, x: c.x, y: c.y, w: Math.max(c.w, 70), h: Math.max(c.h, 70), count: cnt });
+      }
+      if (s.blk > 0 && !(drag && drag.sprite.kind === 'blockade' && drag.sprite.space === n)) { const x = a.x2 - 34, y = a.y1 + 62; drawImg('blockade', x, y, 62, 126); if (s.blk > 1) badge(x, y + 76, String(s.blk)); add({ kind: 'blockade', space: n, x, y, w: 62, h: 126 }); }
+    }
+    // --- cases Available / Unavailable / Casualties
+    const boxes = [
+      ['british', S.forces.british, st.available.british, 'available'], ['patriots', S.forces.patriots, st.available.patriots, 'available'], ['french', S.forces.french, st.available.french, 'available'], ['indians', S.forces.indians, st.available.indians, 'available'],
+      ['british', S.unavailable.british, st.unavailable.british, 'unavailable'], ['french', S.unavailable.french, st.unavailable.french, 'unavailable'],
+    ];
+    for (const [f, rect, pool, box] of boxes) {
+      const items = []; for (const t of poolKey[f]) if (pool[t] !== undefined) items.push({ key: ftToKey(f, t, false), count: pool[t], f, type: t });
+      if (box === 'unavailable' && f === 'french') items.push({ key: 'squadron', count: st.unavailable.french.sq, f: 'french', type: 'sq' });
+      const r = { x1: rect.x1 + 10, y1: rect.y1 + (box === 'unavailable' ? 60 : 10), x2: rect.x2 - 10, y2: rect.y2 };
+      for (const c of boxCells(r, items, 60)) {
+        const d = PIECE[c.key] || { w: 90, h: 44 }; const sc = c.key === 'squadron' ? 0.45 : d.w > 60 ? 0.7 : 1; const w = d.w * sc, h = d.h * sc;
+        ctx.globalAlpha = c.count > 0 ? 1 : 0.25; drawImg(c.key, c.x, c.y, w, h); ctx.globalAlpha = 1; badge(c.x + 22, c.y + 24, String(c.count), c.count > 0 ? '#2b2520' : '#888');
+        if (c.count > 0) add({ kind: 'pool', box, f: c.f, type: c.type, key: c.key, x: c.x, y: c.y, w: Math.max(w, 50), h: Math.max(h, 50) });
+      }
+      add({ kind: 'box', box, f, x1: rect.x1, y1: rect.y1, x2: rect.x2, y2: rect.y2 });
+    }
+    { const rect = S.casualties; const cas = st.casualties; const items = [{ key: 'b_reg', count: cas.british.reg, f: 'british', type: 'reg' }, { key: 'b_tor', count: cas.british.tor, f: 'british', type: 'tor' }, { key: 'p_cont', count: cas.patriots.cont, f: 'patriots', type: 'cont' }, { key: 'f_reg', count: cas.french.reg, f: 'french', type: 'reg' }];
+      for (const c of boxCells({ x1: rect.x1 + 10, y1: rect.y1 + 150, x2: rect.x2 - 10, y2: rect.y2 }, items, 60)) { ctx.globalAlpha = c.count > 0 ? 1 : 0.25; drawImg(c.key, c.x, c.y, 46, 52); ctx.globalAlpha = 1; badge(c.x + 22, c.y + 24, String(c.count), c.count > 0 ? '#2b2520' : '#888'); if (c.count > 0) add({ kind: 'pool', box: 'casualties', f: c.f, type: c.type, key: c.key, x: c.x, y: c.y, w: 50, h: 56 }); }
+      add({ kind: 'box', box: 'casualties', x1: rect.x1, y1: rect.y1, x2: rect.x2, y2: rect.y2 }); }
+    // --- réserve de marqueurs Propaganda / Raid (case Overflow A) : glisser vers un espace pour en poser un
+    { const left = countMarkers(st, 'prop'), right = countMarkers(st, 'raid');
+      ctx.fillStyle = 'rgba(255,255,255,.75)'; ctx.fillRect(560, 250, 300, 190); label(575, 280, 'Marqueurs (glisser)', 22, '#444');
+      for (const [kind, cnt, x] of [['prop', 12 - left, 640], ['raid', 12 - right, 780]]) {
+        ctx.globalAlpha = cnt > 0 ? 1 : 0.25; for (let i = 0; i < Math.min(3, cnt); i++) drawImg(kind, x + i * 4, 350 - i * 4, 70, 70); if (cnt === 0) drawImg(kind, x, 350, 70, 70); ctx.globalAlpha = 1;
+        badge(x + 30, 395, String(cnt)); label(x - 34, 430, kind === 'prop' ? 'Propaganda' : 'Raid', 20, '#333');
+        if (cnt > 0) add({ kind: 'markerpool', mk: kind, key: kind, x, y: 350, w: 80, h: 80 });
+      } }
+    // --- pistes des Forts / Villages (le jeton indique le nombre sur la carte)
+    const fortsB = countFort(st, 'b'), fortsP = countFort(st, 'p'), vil = countVil(st);
+    { const c = rc(S.britishForts[String(Math.min(6, fortsB))]); drawImg('b_fort', c.x, c.y, 70, 50); }
+    { const c = rc(S.patriotForts[String(Math.min(6, fortsP))]); drawImg('p_fort', c.x, c.y, 70, 50); }
+    { const c = rc(S.villages[String(Math.min(12, vil))]); drawImg('i_vil', c.x, c.y, 70, 50); }
+    // --- FNI et Squadrons
+    { const c = rc(S.fni[String(Math.min(3, st.fni))]); drawImg('fni', c.x + 60, c.y, 64, 62); }
+    for (let i = 0; i < 3; i++) { const r = S.ships['ship' + (i + 1)]; const c = rc(r); if (i < st.wiSquadrons && !(drag && drag.sprite.kind === 'squadron' && drag.sprite.idx === i)) { drawImg('squadron', c.x, c.y, 200, 98); add({ kind: 'squadron', idx: i, x: c.x, y: c.y, w: 200, h: 98 }); } }
+    // --- pistes de score
+    const tokens = [];
+    for (const f of FACTIONS) tokens.push({ key: 'pawn_' + f, track: 'resources', v: st.resources[f], kind: 'res', f, w: 60, h: 60 });
+    tokens.push({ key: 'tok_cbc', track: 'casualties', v: st.cbc, kind: 'cbc', w: 62, h: 62 }, { key: 'tok_crc', track: 'casualties', v: st.crc, kind: 'crc', w: 62, h: 62 });
+    tokens.push({ key: 'tok_support', track: 'support', v: totalSup(st, 1), kind: 'sup', w: 62, h: 62 }, { key: 'tok_opposition', track: 'support', v: totalSup(st, -1), kind: 'opp', w: 62, h: 62 });
+    const used = {};
+    for (const t of tokens) { if (drag && drag.sprite.kind === 'token' && drag.sprite.tok === t.kind) continue; const c = trackCell(t.track, t.v); if (!c) continue; const k = t.track + t.v; const off = (used[k] = (used[k] || 0) + 1) - 1; const x = c.x + off * 14, y = c.y - off * 14; drawImg(t.key, x, y, t.w, t.h); add({ kind: 'token', tok: t.kind, f: t.f, x, y, w: t.w, h: t.h, draggable: t.kind === 'res' || t.kind === 'cbc' || t.kind === 'crc' }); }
+    // --- éligibilité (boîte 1 = Eligible, boîte 10 = Ineligible)
+    { const counts = {};
+      for (const f of FACTIONS) { if (drag && drag.sprite.kind === 'elig' && drag.sprite.f === f) continue; const p = pawnPos(st, f, counts); drawImg('pawn_' + f, p.x, p.y, 56, 56); add({ kind: 'elig', f, x: p.x, y: p.y, w: 56, h: 56 }); } }
+    // --- carte en cours (zone « Event Card » de la Sequence of Play) et carte suivante (deck)
+    { const z1 = S.sequence['1']; const d = { x: z1.x1 + 10, y: z1.y1 + 60, width: z1.x2 - z1.x1 - 20, height: (z1.x2 - z1.x1 - 20) * 425 / 303 }; const card = parseCard($('cardIn').value);
+      if (card) { const im = cardImgOk ? cardImage(card) : null; if (im && im.complete && im.naturalWidth) ctx.drawImage(im, d.x, d.y, d.width, d.height); else { ctx.fillStyle = '#f7f1e3'; ctx.fillRect(d.x, d.y, d.width, d.height); ctx.strokeStyle = '#8b2f1f'; ctx.lineWidth = 4; ctx.strokeRect(d.x, d.y, d.width, d.height); ctx.font = 'bold 28px sans-serif'; ctx.fillStyle = '#222'; ctx.fillText('#' + card.id, d.x + 12, d.y + 40); wrapText(card.title, d.x + 12, d.y + 80, d.width - 24, 26); } }
+      const dk = S.deck; const next = parseCard($('nextIn').value); ctx.fillStyle = 'rgba(0,0,0,.08)'; ctx.fillRect(dk.x, dk.y, dk.width, dk.height);
+      if (next) { const im = cardImgOk ? cardImage(next) : null; if (im && im.complete && im.naturalWidth) ctx.drawImage(im, dk.x, dk.y, dk.width, dk.height); else { drawImg('cardback', dk.x + dk.width / 2, dk.y + dk.height / 2, dk.width, dk.height); badge(dk.x + dk.width / 2, dk.y + dk.height / 2, '#' + next.id); } badge(dk.x + dk.width / 2, dk.y - 24, 'Carte suivante'); }
+      else drawImg('cardback', dk.x + dk.width / 2, dk.y + dk.height / 2, dk.width, dk.height); }
+    // French prep / at war
+    drawImg(st.toa ? 'french_war' : 'french_prep', S.unavailable.french.x2 - 50, S.unavailable.french.y1 + 30, 64, 64);
+    // --- pièces en vol / en cours de glisser
+    for (const f of flying) { drawImg(f.key, f.x, f.y, f.w, f.h); }
+    if (drag && drag.sprite.key) drawImg(drag.sprite.key, drag.x, drag.y, drag.sprite.w, drag.sprite.h);
+    renderStatus();
+  }
+  function wrapText(text, x, y, maxW, lh) { ctx.font = 'bold 22px sans-serif'; ctx.fillStyle = '#222'; const words = String(text).split(' '); let line = ''; for (const w of words) { const t = line ? line + ' ' + w : w; if (ctx.measureText(t).width > maxW && line) { ctx.fillText(line, x, y); y += lh; line = w; } else line = t; } if (line) ctx.fillText(line, x, y); }
+  // position du cylindre d'une faction sur la Sequence of Play : case en cours (seq) sinon Eligible (2) / Ineligible (10)
+  function pawnPos(st, f, counts) { const box = (st.seq && st.seq[f]) || (st.eligible[f] ? 2 : 10); const r = S.sequence[String(box)]; counts[box] = (counts[box] || 0) + 1; const i = counts[box] - 1; const big = box === 2 || box === 10; const x = big ? r.x1 + 45 + (i % 2) * 72 : r.x1 + 36 + i * 36, y = big ? r.y1 + 60 + Math.floor(i / 2) * 75 : r.y2 - 34; return { x, y }; }
+  function countMarkers(st, kind) { let t = 0; for (const n of SPACE_NAMES) t += st.spaces[n][kind]; return t; }
+  function countFort(st, p) { let t = 0; for (const n of SPACE_NAMES) t += st.spaces[n][p].fort; return t; }
+  function countVil(st) { let t = 0; for (const n of SPACE_NAMES) t += st.spaces[n].i.vil; return t; }
+  function totalSup(st, sign) { let t = 0; for (const n of SPACE_NAMES) { const s = st.spaces[n]; if (n === WI) continue; const pop = (LOD.SPACES[n].type === 'city' && s.blk > 0) ? 0 : LOD.SPACES[n].pop; if (sign > 0 && s.sup > 0) t += s.sup * pop; if (sign < 0 && s.sup < 0) t += -s.sup * pop; } return t; }
+  function ctlOf(st, n) { const s = st.spaces[n]; const roy = s.b.reg + s.b.tor + s.b.fort + s.i.wpU + s.i.wpA + s.i.vil, reb = s.p.cont + s.p.milU + s.p.milA + s.p.fort + s.f.reg; if (n === WI) { const r2 = s.b.reg + s.b.fort; return s.f.reg > r2 ? 'rebellion' : r2 > s.f.reg && r2 > 0 ? 'british' : null; } if (reb > roy) return 'rebellion'; if (roy > reb && s.b.reg + s.b.tor + s.b.fort > 0) return 'british'; return null; }
+  const cardImgs = {}; function cardImage(card) { if (!cardImgs[card.id]) { const im = new Image(); im.onerror = () => { cardImgOk = false; draw(); }; im.onload = () => draw(); im.src = '../../Images/Cartes/' + encodeURIComponent(card.file); cardImgs[card.id] = im; } return cardImgs[card.id]; }
+  function renderStatus() {
+    const st = g.state; const m = g.margins();
+    $('status').innerHTML = `<span>Support <b>${g.totalSupport()}</b> · Opposition <b>${g.totalOpposition()}</b></span><span>CBC <b>${st.cbc}</b> · CRC <b>${st.crc}</b></span><span>FNI <b>${st.fni}</b> · Prép. fr. <b>${g.frenchPreparations()}</b>${st.toa ? ' · TOA jouée' : ''}</span>` +
+      FACTIONS.map(f => `<span class="pill ${f}">${FR[f]} ${st.resources[f]}${st.players[f] === 'human' ? ' ★' : ''}</span>`).join(' ') + `<span>Marges B ${m.british.total} · P ${m.patriots.total} · F ${st.toa ? m.french.total : '–'} · I ${m.indians.total}</span><span>Hiver ${st.wqDone}/${st.wqTotal}</span>`;
+  }
+
+  // ------------------------------------------------------------------ souris : zoom, déplacement, drag & drop
+  function hit(wx, wy) { for (let i = sprites.length - 1; i >= 0; i--) { const s = sprites[i]; if (s.kind === 'box') continue; if (Math.abs(wx - s.x) <= s.w / 2 && Math.abs(wy - s.y) <= s.h / 2) return s; } return null; }
+  function hitSpace(wx, wy) { const inR = (r, m) => r && wx >= r.x1 - m && wx <= r.x2 + m && wy >= r.y1 - m && wy <= r.y2 + m; for (const n of SPACE_NAMES) { const z = Z[n]; if (!z) continue; if (inR(z.armies, 30) || inR(z.support, 10) || inR(z.control, 10) || inR(z.raid, 10) || inR(z.propaganda, 10)) return n; } return null; }
+  function hitBox(wx, wy) { for (const s of sprites) if (s.kind === 'box' && wx >= s.x1 && wx <= s.x2 && wy >= s.y1 && wy <= s.y2) return s; return null; }
+  function hitTrack(kind, wx, wy) { for (let v = 0; v <= 50; v++) { const c = trackCell(kind, v); if (c && Math.abs(wx - c.x) <= c.w / 2 && Math.abs(wy - c.y) <= c.h / 2) return v; } return null; }
+  let pan = null, lastClick = 0;
+  cv.addEventListener('wheel', e => { e.preventDefault(); const [wx, wy] = S2W(e.clientX, e.clientY); const k = e.deltaY < 0 ? 1.12 : 1 / 1.12; view.scale = Math.max(0.12, Math.min(1.5, view.scale * k)); view.x = e.clientX - wx * view.scale; view.y = e.clientY - wy * view.scale; draw(); }, { passive: false });
+  cv.addEventListener('mousedown', e => {
+    if (e.button === 2) return;
+    const [wx, wy] = S2W(e.clientX, e.clientY); const s = animating ? null : hit(wx, wy);
+    if (s && (s.kind === 'piece' || s.kind === 'leader' || s.kind === 'pool' || s.kind === 'squadron' || s.kind === 'blockade' || s.kind === 'elig' || s.kind === 'markerpool' || ((s.kind === 'raid' || s.kind === 'prop') && s.count > 0) || (s.kind === 'token' && s.draggable))) {
+      drag = { sprite: Object.assign({}, s, { key: s.key || (s.kind === 'leader' ? 'L_' + g.state.leaders[s.f].name : s.kind === 'elig' ? 'pawn_' + s.f : s.kind === 'token' ? (s.tok === 'res' ? 'pawn_' + s.f : 'tok_' + s.tok) : s.kind === 'squadron' ? 'squadron' : s.kind === 'raid' || s.kind === 'prop' ? s.kind : 'blockade') }), x: wx, y: wy, moved: false };
+      cv.classList.add('piece'); draw(); return;
+    }
+    pan = { x: e.clientX, y: e.clientY, vx: view.x, vy: view.y, moved: false, s }; cv.classList.add('dragging');
+  });
+  window.addEventListener('mousemove', e => {
+    if (drag) { const [wx, wy] = S2W(e.clientX, e.clientY); drag.x = wx; drag.y = wy; drag.moved = true; draw(); return; }
+    if (pan) { const dx = e.clientX - pan.x, dy = e.clientY - pan.y; if (Math.abs(dx) + Math.abs(dy) > 3) pan.moved = true; view.x = pan.vx + dx; view.y = pan.vy + dy; draw(); }
+  });
+  window.addEventListener('mouseup', e => {
+    cv.classList.remove('dragging'); cv.classList.remove('piece');
+    if (drag) { const d = drag; drag = null; if (d.moved) dropSprite(d.sprite, d.x, d.y); else clickSprite(d.sprite); draw(); return; }
+    if (pan) { const p = pan; pan = null; if (!p.moved) { const [wx, wy] = S2W(e.clientX, e.clientY); const s = animating ? null : hit(wx, wy); if (s) clickSprite(s); } draw(); }
+  });
+  cv.addEventListener('contextmenu', e => { e.preventDefault(); if (animating) return; const [wx, wy] = S2W(e.clientX, e.clientY); const s = hit(wx, wy); if (!s) return; const sp = g.sp(s.space || ''); if (s.kind === 'raid' && sp.raid > 0) { sp.raid--; changed(); } if (s.kind === 'prop' && sp.prop > 0) { sp.prop--; changed(); } if (s.kind === 'support') { g.sp(s.space).sup = Math.max(-2, g.sp(s.space).sup - 1); changed(); } });
+  cv.addEventListener('dblclick', e => { if (animating) return; const [wx, wy] = S2W(e.clientX, e.clientY); const s = hit(wx, wy); if (!s || s.kind !== 'piece') return; const sp = g.sp(s.space); if (s.key === 'p_milU') { sp.p.milU--; sp.p.milA++; } else if (s.key === 'p_milA') { sp.p.milA--; sp.p.milU++; } else if (s.key === 'i_wpU') { sp.i.wpU--; sp.i.wpA++; } else if (s.key === 'i_wpA') { sp.i.wpA--; sp.i.wpU++; } else return; changed(); });
+  function clickSprite(s) {
+    if (animating) return;
+    const now = Date.now(); if (now - lastClick < 350) { lastClick = 0; return; } lastClick = now;
+    if (s.kind === 'support') { const sp = g.sp(s.space); sp.sup = sp.sup >= 2 ? -2 : sp.sup + 1; changed(); }
+    if (s.kind === 'raid') { if (g.markersOnMap('raid') >= 12) return toast('Les 12 marqueurs Raid sont déjà sur la carte'); g.sp(s.space).raid++; changed(); }
+    if (s.kind === 'prop') { if (g.markersOnMap('prop') >= 12) return toast('Les 12 marqueurs Propaganda sont déjà sur la carte'); g.sp(s.space).prop++; changed(); }
+  }
+  function dropSprite(s, wx, wy) {
+    const st = g.state; const space = hitSpace(wx, wy); const box = hitBox(wx, wy);
+    if (s.kind === 'piece') {
+      const { f, type, sub } = keyToFT(s.key);
+      if (space && space !== s.space) { if (!g.movePiece(f, type, s.space, space, 1, sub)) toast('Déplacement impossible ici'); else { if (sub === 'A') fixActive(space, type, f); } changed(); return; }
+      if (box && box.box === 'available') { if (box.f !== f) return toast('Case Available d\'une autre faction'); g.remove(f, type, s.space, 1, 'available', sub); changed(); return; }
+      if (box && box.box === 'casualties') { if (type === 'mil' || type === 'wp' || type === 'vil') return toast('Cette pièce ne va pas en Casualties'); g.remove(f, type, s.space, 1, 'casualties'); changed(); return; }
+      if (box && box.box === 'unavailable') { if (box.f !== f || !(st.unavailable[f] && st.unavailable[f][type] !== undefined)) return toast('Impossible'); g.remove(f, type, s.space, 1, 'available', sub); st.available[f][type]--; st.unavailable[f][type]++; changed(); return; }
+    }
+    if (s.kind === 'pool') {
+      if (space) { if (s.box === 'casualties' || s.box === 'unavailable') { if (s.type === 'sq') return; st[s.box][s.f][s.type]--; st.available[s.f][s.type]++; } if (!g.place(s.f, s.type, space, 1)) { if (s.box !== 'available') { st.available[s.f][s.type]--; st[s.box][s.f][s.type]++; } toast('Placement impossible ici'); } changed(); return; }
+      if (box && box.box !== s.box) { if (s.type === 'sq') { if (box.box === 'available' && box.f === 'french') { st.unavailable.french.sq--; st.wiSquadrons++; changed(); } return; } if (box.f && box.f !== s.f) return toast('Autre faction'); const dest = box.box; if (dest === 'casualties' && !(st.casualties[s.f] && st.casualties[s.f][s.type] !== undefined)) return toast('Impossible'); if (dest === 'unavailable' && !(st.unavailable[s.f] && st.unavailable[s.f][s.type] !== undefined)) return toast('Impossible'); st[s.box][s.f][s.type]--; st[dest][s.f][s.type]++; changed(); return; }
+    }
+    if (s.kind === 'markerpool') { const t = nearestMarkerTarget(s.mk, wx, wy); if (t.space === 'reserve' || !t.space) return; if (g.markersOnMap(s.mk) >= 12) return toast('Les 12 marqueurs sont déjà sur la carte'); g.sp(t.space)[s.mk]++; toast(`Marqueur ${s.mk === 'raid' ? 'Raid' : 'Propaganda'} posé en ${t.space}`); changed(); return; }
+    if (s.kind === 'raid' || s.kind === 'prop') { const t = nearestMarkerTarget(s.kind, wx, wy); if (t.space === 'reserve') { g.sp(s.space)[s.kind]--; toast('Marqueur retourné dans la réserve'); } else if (t.space && t.space !== s.space) { g.sp(s.space)[s.kind]--; g.sp(t.space)[s.kind]++; toast(`Marqueur déplacé en ${t.space}`); } changed(); return; }
+    if (s.kind === 'leader') { const L = st.leaders[s.f]; if (space) { L.loc = space; changed(); } else if (box && box.box === 'available') { L.loc = null; changed(); } return; }
+    if (s.kind === 'squadron') { if (nearShips(wx, wy)) return; const nc = nearestCity(wx, wy); if (nc.city && nc.d < 260) { st.wiSquadrons--; g.sp(nc.city).blk++; st.fni++; toast(`Blocus placé sur ${nc.city} (FNI ${st.fni})`); changed(); } else toast('Déposer le Squadron sur une Ville (Blocus) ou dans les cases Squadron'); return; }
+    if (s.kind === 'blockade') { if (nearShips(wx, wy)) { g.sp(s.space).blk--; st.wiSquadrons++; st.fni--; toast(`Blocus retiré de ${s.space} → Antilles (FNI ${st.fni})`); changed(); return; } const nc = nearestCity(wx, wy); if (nc.city && nc.d < 260 && nc.city !== s.space) { g.sp(s.space).blk--; g.sp(nc.city).blk++; toast(`Blocus déplacé en ${nc.city}`); changed(); } else if (!space) { g.sp(s.space).blk--; st.wiSquadrons++; st.fni--; toast(`Blocus retiré → Antilles (FNI ${st.fni})`); changed(); } return; }
+    if (s.kind === 'elig') { const el = S.sequence['2'], inel = S.sequence['10']; const inR = r => wx >= r.x1 && wx <= r.x2 && wy >= r.y1 && wy <= r.y2; if (inR(el)) { st.eligible[s.f] = true; delete st.seq[s.f]; } else if (inR(inel)) { st.eligible[s.f] = false; delete st.seq[s.f]; } else { for (const k of ['3', '4', '5', '6', '7', '8', '9']) if (inR(S.sequence[k])) { st.seq = st.seq || {}; st.seq[s.f] = +k; } } changed(); return; }
+    if (s.kind === 'token') { const v = hitTrack(s.tok === 'res' ? 'resources' : 'casualties', wx, wy); if (v === null) return; if (s.tok === 'res') st.resources[s.f] = v; else if (s.tok === 'cbc') st.cbc = v; else st.crc = v; changed(); return; }
+  }
+  // cible la plus proche : zone R/P d'un espace peuplé, ou la réserve de marqueurs
+  const RESERVE = { prop: { x: 640, y: 350 }, raid: { x: 780, y: 350 } };
+  function nearestMarkerTarget(kind, wx, wy) { let best = { d: Infinity, space: null }; const dd = (x, y) => (x - wx) ** 2 + (y - wy) ** 2;
+    for (const n of SPACE_NAMES) { if (LOD.SPACES[n].pop === 0) continue; const z = Z[n]; const r = kind === 'raid' ? z.raid : z.propaganda; if (!r) continue; const c = rc(r); const d = dd(c.x, c.y); if (d < best.d) best = { d, space: n }; }
+    const rd = dd(RESERVE[kind].x, RESERVE[kind].y); if (rd < best.d) best = { d: rd, space: 'reserve' }; return best; }
+  function nearestCity(wx, wy) { let best = null, bd = Infinity; for (const c of CITIES) { const z = Z[c]; if (!z) continue; const r = rc(z.armies); const d = (r.x - wx) ** 2 + (r.y - wy) ** 2; if (d < bd) { bd = d; best = c; } } return { city: best, d: Math.sqrt(bd) }; }
+  function nearShips(wx, wy) { for (const k in S.ships) { const r = S.ships[k]; if (wx >= r.x1 - 60 && wx <= r.x2 + 60 && wy >= r.y1 - 60 && wy <= r.y2 + 60) return true; } const w = Z[WI]; return w && wx >= w.armies.x1 && wx <= w.armies.x2 + 300 && wy >= w.armies.y1 - 60 && wy <= w.armies.y2 + 60; }
+  function fixActive(space, type, f) { /* movePiece conserve l'état Underground/Active : rien à faire */ }
+  function changed() { save(); draw(); }
+
+  // ------------------------------------------------------------------ animation des actions des ordinateurs
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  function dur(base) { const sp = +$('speed').value || 5; return skipAnim ? 0 : base * (11 - sp) / 5; }
+  function boxCenter(f, box) { const r = box === 'casualties' ? S.casualties : box === 'unavailable' ? S.unavailable[f] : S.forces[f]; return r ? rc(r) : { x: 1250, y: 1900 }; }
+  function spaceCenter(n) { const z = Z[n]; return z ? rc(z.armies) : { x: 1250, y: 1900 }; }
+  function ensureVisible(x, y) { // recentre la vue si le point est hors écran
+    const [sx, sy] = W2S(x, y); const m = 120, right = cv.width - 410 - m, bottom = cv.height - 70;
+    if (sx < m) view.x += m - sx; else if (sx > right) view.x -= sx - right;
+    if (sy < m) view.y += m - sy; else if (sy > bottom) view.y -= sy - bottom;
+  }
+  async function fly(key, from, to, w, h, ms) {
+    ensureVisible(to.x, to.y); const sp = { key, x: from.x, y: from.y, w, h }; flying.push(sp); const t0 = performance.now(); const d = dur(ms || 600);
+    if (d > 0) await new Promise(res => { const step = now => { const t = Math.min(1, (now - t0) / d); const e = t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t; sp.x = from.x + (to.x - from.x) * e; sp.y = from.y + (to.y - from.y) * e - Math.sin(t * Math.PI) * 60; draw(); if (t < 1) requestAnimationFrame(step); else res(); }; requestAnimationFrame(step); });
+    flying = flying.filter(x => x !== sp);
+  }
+  function narr(html, cls) { const d = document.createElement('div'); d.className = cls || 'i'; d.innerHTML = html; const N = $('narr'); for (const c of N.querySelectorAll('.cur')) c.classList.remove('cur'); d.classList.add('cur'); N.appendChild(d); N.scrollTop = N.scrollHeight; }
+  function esc(s) { return String(s).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[c]); }
+  function setHead(f, title) { const img = $('headFlag'); if (f) { img.src = ASSETS['flag_' + f]; img.style.display = ''; } else img.style.display = 'none'; $('headTitle').textContent = title; }
+  // application d'un événement à l'état visuel
+  function applyVS(ev) {
+    const s = ev.n ? vs.spaces[ev.n] : null;
+    const pk = { british: 'b', patriots: 'p', french: 'f', indians: 'i' };
+    const inc = (sp, f, type, active, d) => { const o = sp[pk[f]]; if (type === 'mil') o[active ? 'milA' : 'milU'] += d; else if (type === 'wp') o[active ? 'wpA' : 'wpU'] += d; else o[type] += d; };
+    switch (ev.t) {
+      case 'place': inc(s, ev.f, ev.type, ev.active, 1); { const box = ev.src === 'Unavailable' ? vs.unavailable : ev.src === 'Casualties' ? vs.casualties : vs.available; if (box[ev.f] && box[ev.f][ev.type] > 0) box[ev.f][ev.type]--; } break;
+      case 'remove': inc(s, ev.f, ev.type, ev.active, -1); if (ev.dest === 'casualties') { if (ev.type === 'fort') vs.available[ev.f].fort++; else vs.casualties[ev.f][ev.type]++; } else vs.available[ev.f][ev.type]++; break;
+      case 'move': { const a = vs.spaces[ev.from], b = vs.spaces[ev.to]; if (ev.type === 'mil' || ev.type === 'wp') { const o = ev.type === 'mil' ? 'p' : 'i', U = ev.type === 'mil' ? 'milU' : 'wpU', A = ev.type === 'mil' ? 'milA' : 'wpA'; let k = ev.k; if (ev.sub === 'A') { a[o][A] -= k; } else if (ev.sub === 'U') { a[o][U] -= k; } else { const u = Math.min(k, a[o][U]); a[o][U] -= u; a[o][A] -= (k - u); } b[o][U] = ev.toU; b[o][A] = ev.toA; } else { inc(a, ev.f, ev.type, false, -ev.k); inc(b, ev.f, ev.type, false, ev.k); } } break;
+      case 'flip': if (ev.kind === 'mil') { if (ev.active) { s.p.milU -= ev.k; s.p.milA += ev.k; } else { s.p.milA -= ev.k; s.p.milU += ev.k; } } else { if (ev.active) { s.i.wpU -= ev.k; s.i.wpA += ev.k; } else { s.i.wpA -= ev.k; s.i.wpU += ev.k; } } break;
+      case 'shift': s.sup = ev.to; break;
+      case 'marker': s[ev.kind] += ev.delta; break;
+      case 'res': vs.resources[ev.f] = ev.to; break;
+      case 'blk': s.blk += ev.delta; vs.wiSquadrons -= ev.delta; vs.fni += ev.delta; break;
+      case 'leader': vs.leaders[ev.f].loc = ev.to; break;
+      case 'leadername': vs.leaders[ev.f].name = ev.name; break;
+      case 'track': vs[ev.which] = ev.to; break;
+      case 'seq': vs.seq = vs.seq || {}; vs.seq[ev.f] = ev.box; break;
+      case 'elig': vs.eligible = Object.assign({}, ev.eligible); vs.seq = {}; break;
+    }
+  }
+  const DICE = { 6: 'd6_', 3: 'd3_' };
+  async function playEvents(events) {
+    animating = true; skipAnim = false; const btn = $('btnSkip'); if (btn) btn.style.display = '';
+    for (const ev of events) {
+      if (ev.t === 'say') { if (ev.level === 'head') { narr(esc(ev.msg), 'h'); const m = ev.msg.match(/^(Britanniques|Patriotes|Français|Indiens)/); if (m) setHead({ Britanniques: 'british', Patriotes: 'patriots', Français: 'french', Indiens: 'indians' }[m[1]], ev.msg); else if (/^CARTE|^WINTER/.test(ev.msg)) setHead(null, ev.msg); await sleep(dur(500)); } else if (ev.level === 'act') { narr(esc(ev.msg), 'a'); await sleep(dur(700)); } else if (ev.level === 'warn') narr(esc(ev.msg), 'w'); else if (ev.level !== 'dice') { narr(esc(ev.msg), 'i'); await sleep(dur(220)); } continue; }
+      if (ev.t === 'dice') { narr(`<img class="die" src="${ASSETS[DICE[ev.sides] + ev.v]}"> ${ev.sides === 6 ? 'D6' : 'D3'} : ${ev.v}`, 'i'); await sleep(dur(500)); continue; }
+      if (ev.t === 'battle') { flash = ev.n; ensureVisible(spaceCenter(ev.n).x, spaceCenter(ev.n).y); draw(); await sleep(dur(600)); flash = null; draw(); continue; }
+      if (ev.t === 'place') { const key = ftToKey(ev.f, ev.type, ev.active); const d = PIECE[key]; const from = boxCenter(ev.f, ev.src === 'Unavailable' ? 'unavailable' : ev.src === 'Casualties' ? 'casualties' : 'available'); applyVS(ev); const cells = spaceCells(ev.n, vs); const target = cells.filter(c => c.key === key).pop() || spaceCenter(ev.n); hidden = { n: ev.n, idx: target.idx }; await fly(key, from, target, d.w, d.h, 650); hidden = null; }
+      else if (ev.t === 'remove') { const key = ftToKey(ev.f, ev.type, ev.active); const d = PIECE[key]; const cells = spaceCells(ev.n, vs); const src = cells.filter(c => c.key === key).pop() || spaceCenter(ev.n); applyVS(ev); await fly(key, src, boxCenter(ev.f, ev.dest), d.w, d.h, 650); }
+      else if (ev.t === 'move') { const key = ftToKey(ev.f, ev.type, ev.sub === 'A'); const d = PIECE[key]; const from = spaceCenter(ev.from), to = spaceCenter(ev.to); applyVS(ev); for (let i = 0; i < Math.min(ev.k, 4); i++) { const p = fly(key, { x: from.x + i * 12, y: from.y }, { x: to.x + i * 12, y: to.y }, d.w, d.h, 700); if (i === Math.min(ev.k, 4) - 1) await p; else await sleep(dur(90)); } if (ev.k > 4) await sleep(dur(300)); }
+      else if (ev.t === 'flip') { applyVS(ev); flash = ev.n; draw(); await sleep(dur(350)); flash = null; draw(); }
+      else if (ev.t === 'shift') { applyVS(ev); const z = Z[ev.n]; if (z && z.support) { const c = rc(z.support); ensureVisible(c.x, c.y); await fly('sup' + ev.to, { x: c.x, y: c.y - 120 }, c, 66, 66, 500); } }
+      else if (ev.t === 'marker') { applyVS(ev); const z = Z[ev.n]; const r = z && (ev.kind === 'raid' ? z.raid : z.propaganda); if (r) { const c = rc(r); if (ev.delta > 0) await fly(ev.kind, { x: c.x, y: c.y - 120 }, c, 70, 70, 450); else await fly(ev.kind, c, { x: c.x, y: c.y - 120 }, 70, 70, 450); } }
+      else if (ev.t === 'res') { const from = trackCell('resources', ev.from), to = trackCell('resources', ev.to); applyVS(ev); if (from && to) await fly('pawn_' + ev.f, from, to, 60, 60, 500); draw(); }
+      else if (ev.t === 'track') { const from = trackCell('casualties', ev.from), to = trackCell('casualties', ev.to); applyVS(ev); if (from && to) await fly('tok_' + ev.which, from, to, 62, 62, 500); }
+      else if (ev.t === 'blk') { const city = spaceCenter(ev.n); const ship = rc(S.ships.ship1); applyVS(ev); if (ev.delta > 0) await fly('blockade', ship, { x: city.x, y: city.y - 40 }, 62, 126, 800); else await fly('blockade', { x: city.x, y: city.y - 40 }, ship, 62, 126, 800); }
+      else if (ev.t === 'seq' || ev.t === 'elig') { const fs = ev.t === 'seq' ? [ev.f] : FACTIONS; const from = {}; const c0 = {}; for (const f of fs) from[f] = pawnPos(vs, f, c0); applyVS(ev); const c1 = {}; for (const f of fs) { const to = pawnPos(vs, f, c1); if (from[f].x !== to.x || from[f].y !== to.y) await fly('pawn_' + f, from[f], to, 56, 56, 600); } }
+      else if (ev.t === 'leader') { const name = vs.leaders[ev.f].name; const from = ev.from ? spaceCenter(ev.from) : boxCenter(ev.f, 'available'); const to = ev.to ? spaceCenter(ev.to) : boxCenter(ev.f, 'available'); applyVS(ev); await fly('L_' + name, from, to, 68, 68, 700); }
+      else applyVS(ev);
+      draw();
+    }
+    vs = null; animating = false; skipAnim = false; if (btn) btn.style.display = 'none'; draw();
+  }
+  let hidden = null;
+
+  // ------------------------------------------------------------------ déroulement
+  function parseCard(v) { const m = String(v || '').match(/^\s*(\d+)/); if (m && CARDS[+m[1]]) return CARDS[+m[1]]; return null; }
+  function showCard() { const c = parseCard($('cardIn').value); const d = $('card'); if (!c) { d.style.display = 'none'; return; } d.style.display = '';
+    let t = `<b>#${c.id} ${esc(c.title)}</b>`; if (c.order) t += '<br>' + c.order.map(f => `<span class="pill ${f}">${FR[f]}${{ sword: ' ⚔', musket: ' 🔫', none: '' }[c.icons[f]]}</span>`).join(' ');
+    t += `<div><span class="lbl">${esc(c.unshaded_label || '')}</span> ${esc(c.unshaded || '')}</div>`; if (c.shaded) t += `<div class="shaded"><span class="lbl">${esc(c.shaded_label || '')}</span> ${esc(c.shaded)}</div>`;
+    d.innerHTML = t; draw(); }
+  async function playCard() {
+    if (gen || animating) return toast('Une carte est en cours');
+    const card = parseCard($('cardIn').value); if (!card) return toast('Indique le numéro de la carte jouée');
+    const next = parseCard($('nextIn').value);
+    history.push(g.snapshot()); if (history.length > 20) history.shift();
+    $('narr').innerHTML = ''; setHead(null, `Carte #${card.id}`);
+    g.rng = LOD.makeRng((+$('seed').value || 1) + 7919 * (g.log.length + 1));
+    gen = LOD.Turn.run(g, card, next);
+    await advance(undefined);
+  }
+  async function advance(answer) {
+    hideAsk(); const before = clone(g.state); g.events = [];
+    let r; try { r = gen.next(answer); } catch (e) { narr('ERREUR : ' + esc(e.message), 'w'); console.error(e); gen = null; draw(); return; }
+    const events = g.events; g.events = [];
+    if (events.some(e => e.t !== 'say')) { vs = before; draw(); await playEvents(events); } else { for (const e of events) if (e.t === 'say') narr(esc(e.msg), e.level === 'head' ? 'h' : e.level === 'act' ? 'a' : e.level === 'warn' ? 'w' : 'i'); }
+    draw(); save();
+    if (r.done) { gen = null; const v = r.value || {}; if (v.gameOver) ask(v.final ? 'Fin de partie (dernier Winter Quarters). Voir les marges en bas de l\'écran.' : 'Fin de partie : une faction remplit ses deux conditions de victoire.', [], null); else { setHead(null, 'Carte terminée'); narr('Carte terminée — choisis la carte suivante.', 'h'); } return; }
+    const q = r.value; const labels = { event: 'Événement', command: 'Commande seule', commandSA: 'Commande + Activité spéciale', limited: 'Commande limitée', pass: 'Passer', bs: 'Brilliant Stroke', oui: 'Oui', non: 'Non' };
+    setHead(q.faction, `À vous : ${FR[q.faction]}`);
+    ask(q.msg, (q.options || []).map(o => ({ label: labels[o] || o, value: o })), q);
+  }
+  function ask(msg, opts, q) {
+    const A = $('ask'); A.style.display = ''; $('askMsg').textContent = msg; const B = $('askBtns'); B.innerHTML = '';
+    if (q && q.phase === 'turn') { const l = document.createElement('label'); l.style.fontSize = '12px'; l.innerHTML = '<input type="checkbox" id="autoEvent" checked> si Événement : l\'appliquer automatiquement'; B.appendChild(l); B.appendChild(document.createElement('div')); }
+    if (!opts.length && gen) { const b = document.createElement('button'); b.className = 'ok'; b.textContent = 'Continuer'; b.onclick = () => advance({ choice: 'continue' }); B.appendChild(b); }
+    for (const o of opts) { const b = document.createElement('button'); b.textContent = o.label; b.className = o.value === 'pass' || o.value === 'non' ? 'sec' : 'ok'; b.onclick = () => { const a = { choice: o.value }; const ae = $('autoEvent'); if (ae) a.autoEvent = ae.checked; advance(a); }; B.appendChild(b); }
+    if (!gen) { const b = document.createElement('button'); b.className = 'sec'; b.textContent = 'OK'; b.onclick = hideAsk; B.appendChild(b); }
+  }
+  function hideAsk() { $('ask').style.display = 'none'; }
+
+  // ------------------------------------------------------------------ partie / sauvegarde
+  function newGame(scen) {
+    const st = scen === 'empty' ? LOD.newState() : LOD.scenario(scen); st.seed = +$('seed').value || Math.floor(Math.random() * 1e9); $('seed').value = st.seed;
+    for (const f of FACTIONS) st.players[f] = document.querySelector(`input[name=pl_${f}]:checked`).value;
+    g = new LOD.Game(st, {}); gen = null; history = []; vs = null; $('narr').innerHTML = ''; setHead(null, 'Nouvelle partie'); narr('Nouvelle partie : ' + $('scenario').selectedOptions[0].textContent, 'h'); fitView(); save(); draw();
+  }
+  function fitView() { view.scale = Math.max(0.2, Math.min((cv.width - 440) / 2500, 0.6)); view.x = 12; view.y = 12 - 700 * view.scale; draw(); }
+  function zoomBy(k) { const cx = (cv.width - 400) / 2, cy = cv.height / 2; const [wx, wy] = S2W(cx, cy); view.scale = Math.max(0.12, Math.min(1.5, view.scale * k)); view.x = cx - wx * view.scale; view.y = cy - wy * view.scale; draw(); }
+  function save() { try { localStorage.setItem('lod_plateau', JSON.stringify({ state: g.state, card: $('cardIn').value, next: $('nextIn').value })); } catch (e) {} }
+  function load() { try { const d = JSON.parse(localStorage.getItem('lod_plateau')); if (!d) return false; g = new LOD.Game(d.state, {}); $('cardIn').value = d.card || ''; $('nextIn').value = d.next || ''; $('seed').value = d.state.seed || 1; return true; } catch (e) { return false; } }
+  function renderPlayers() { const d = $('players'); d.innerHTML = ''; for (const f of FACTIONS) { const sp = document.createElement('div'); sp.className = 'row'; sp.innerHTML = `<span class="pill ${f}">${FR[f]}</span> <label><input type="radio" name="pl_${f}" value="human" ${g && g.state.players[f] === 'human' ? 'checked' : ''}> joueur</label> <label><input type="radio" name="pl_${f}" value="bot" ${!g || g.state.players[f] !== 'human' ? 'checked' : ''}> ordinateur</label>`; d.appendChild(sp); }
+    d.querySelectorAll('input').forEach(r => r.addEventListener('change', () => { if (g) { for (const f of FACTIONS) g.state.players[f] = document.querySelector(`input[name=pl_${f}]:checked`).value; save(); draw(); } })); }
+  function renderTracks() { const d = $('tracks'); d.innerHTML = ''; const st = g.state; const N = (label, get, set) => { const l = document.createElement('label'); l.innerHTML = label + ' '; const i = document.createElement('input'); i.type = 'number'; i.style.width = '56px'; i.value = get(); i.onchange = () => { set(Math.max(0, +i.value || 0)); save(); draw(); }; l.appendChild(i); d.appendChild(l); };
+    N('Hivers faits', () => st.wqDone, v => st.wqDone = v); N('Hivers total', () => st.wqTotal, v => st.wqTotal = v); N('Squadrons Antilles', () => st.wiSquadrons, v => st.wiSquadrons = v);
+    const c = document.createElement('label'); c.innerHTML = `<input type="checkbox" ${st.toa ? 'checked' : ''}> Treaty of Alliance jouée`; c.querySelector('input').onchange = e => { st.toa = e.target.checked; save(); draw(); }; d.appendChild(c);
+    for (const f of FACTIONS) { const b = document.createElement('label'); b.innerHTML = `<input type="checkbox" ${st.bs[f] ? 'checked' : ''}> BS ${FR[f]}`; b.querySelector('input').onchange = e => { st.bs[f] = e.target.checked; save(); }; d.appendChild(b); }
+    for (const f of FACTIONS) { const sel = document.createElement('select'); for (const nm of LOD.LEADER_SEQ[f]) { const o = document.createElement('option'); o.value = nm; o.textContent = nm; if (nm === st.leaders[f].name) o.selected = true; sel.appendChild(o); } sel.onchange = () => { st.leaders[f].name = sel.value; save(); draw(); }; const l = document.createElement('label'); l.append(`Leader ${FR[f]} `); l.appendChild(sel); d.appendChild(l); } }
+
+  // ------------------------------------------------------------------ init
+  $('btnPlay').onclick = playCard;
+  $('btnZoomIn').onclick = () => zoomBy(1.25); $('btnZoomOut').onclick = () => zoomBy(0.8); $('btnFit').onclick = fitView;
+  $('btnUndo').onclick = () => { if (animating) return; if (!history.length) return toast('Rien à annuler'); g.restore(history.pop()); gen = null; vs = null; hideAsk(); narr('Dernière carte annulée : état restauré', 'w'); save(); draw(); };
+  $('btnSettings').onclick = () => { renderPlayers(); renderTracks(); $('settings').style.display = 'flex'; };
+  $('btnClose').onclick = () => { $('settings').style.display = 'none'; draw(); };
+  $('btnNew').onclick = () => { if (confirm('Commencer une nouvelle partie ? L\'état actuel sera remplacé.')) { newGame($('scenario').value); $('settings').style.display = 'none'; } };
+  $('btnExport').onclick = () => { const blob = new Blob([JSON.stringify({ lodSolo: 1, state: g.state }, null, 1)], { type: 'application/json' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'liberty-or-death-etat.json'; a.click(); };
+  $('fileImport').addEventListener('change', e => { const f = e.target.files[0]; if (!f) return; const fr = new FileReader(); fr.onload = () => { try { const d = JSON.parse(fr.result); if (!d.lodSolo) throw new Error('format inconnu'); g = new LOD.Game(d.state, {}); gen = null; vs = null; save(); draw(); toast('État importé'); } catch (err) { alert('Import impossible : ' + err.message); } }; fr.readAsText(f); e.target.value = ''; });
+  $('cardIn').addEventListener('input', showCard);
+  $('speed').addEventListener('input', () => {});
+  const skip = document.createElement('button'); skip.id = 'btnSkip'; skip.className = 'sec small'; skip.textContent = 'Passer l\'animation'; skip.style.display = 'none'; skip.onclick = () => { skipAnim = true; }; $('topbar').appendChild(skip);
+  window.__lod = () => ({ g, view, Z, S, animating, gen });
+  renderPlayers();
+  resize();
+  if (!load()) { $('seed').value = Math.floor(Math.random() * 1e9); newGame('people_numerous_armed'); } else { fitView(); }
+  showCard();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liberty and Death - Zones des Forces</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .controls {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .control-group label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        select, input, button {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        select, input {
+            min-width: 120px;
+        }
+
+        button {
+            background: #6f42c1;
+            color: white;
+            border: 2px solid #6f42c1;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        button:hover {
+            background: #5a32a3;
+            border-color: #5a32a3;
+        }
+
+        .force-type-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .force-type-btn {
+            padding: 12px 16px;
+            border: 2px solid;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .force-type-btn.faction_forces {
+            border-color: #17a2b8;
+            color: #0c5460;
+        }
+        .force-type-btn.faction_forces.active {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .force-type-btn.british_forts {
+            border-color: #dc3545;
+            color: #721c24;
+        }
+        .force-type-btn.british_forts.active {
+            background: #dc3545;
+            color: white;
+        }
+
+        .force-type-btn.patriot_forts {
+            border-color: #007bff;
+            color: #004085;
+        }
+        .force-type-btn.patriot_forts.active {
+            background: #007bff;
+            color: white;
+        }
+
+        .force-type-btn.indian_villages {
+            border-color: #fd7e14;
+            color: #8a4700;
+        }
+        .force-type-btn.indian_villages.active {
+            background: #fd7e14;
+            color: white;
+        }
+
+        .force-type-btn.french_fni {
+            border-color: #6610f2;
+            color: #3d0a91;
+        }
+        .force-type-btn.french_fni.active {
+            background: #6610f2;
+            color: white;
+        }
+
+        .force-type-btn.french_ships {
+            border-color: #20c997;
+            color: #0a6e47;
+        }
+        .force-type-btn.french_ships.active {
+            background: #20c997;
+            color: white;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 20px;
+        }
+
+        .map-container {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        #forces-canvas {
+            cursor: crosshair;
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .sidebar {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+
+        .instructions {
+            background: #f8d7da;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #dc3545;
+        }
+
+        .current-selection {
+            background: #d1ecf1;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #17a2b8;
+        }
+
+        .progress-section {
+            margin-top: 20px;
+        }
+
+        .category-progress {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 6px;
+            background: #f8f9fa;
+        }
+
+        .category-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #495057;
+        }
+
+        .progress-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
+            gap: 3px;
+        }
+
+        .progress-box {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .progress-box.complete {
+            background: #28a745;
+            color: white;
+        }
+
+        .progress-box.empty {
+            background: #e9ecef;
+            color: #495057;
+            border: 1px solid #dee2e6;
+        }
+
+        .progress-box.current {
+            box-shadow: 0 0 0 3px #007bff;
+        }
+
+        .zone-details {
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 12px;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        .quick-selectors {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 5px;
+            margin: 10px 0;
+        }
+
+        .quick-selectors button {
+            padding: 5px;
+            font-size: 11px;
+            background: #6c757d;
+            border-color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>⚔️ Liberty and Death - Zones des Forces</h1>
+        <p>Définissez les zones pour les forces disponibles, forts, villages et systèmes spéciaux</p>
+    </div>
+
+    <div class="controls">
+        <div class="control-group">
+            <label>Type de force:</label>
+            <div class="force-type-selector">
+                <div class="force-type-btn faction_forces active" data-type="faction_forces">🏛️ Forces par Faction</div>
+                <div class="force-type-btn british_forts" data-type="british_forts">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Forts Britanniques (0-6)</div>
+                <div class="force-type-btn patriot_forts" data-type="patriot_forts">🇺🇸 Forts Patriots (0-6)</div>
+                <div class="force-type-btn indian_villages" data-type="indian_villages">🏕️ Villages Indiens (0-12)</div>
+                <div class="force-type-btn french_fni" data-type="french_fni">🇫🇷 FNI Français (0-3)</div>
+                <div class="force-type-btn french_ships" data-type="french_ships">⚓ Bateaux Français</div>
+            </div>
+        </div>
+
+        <div class="control-group" id="faction-selector" style="display: block;">
+            <label for="faction-select">Faction:</label>
+            <select id="faction-select">
+                <option value="patriots">🇺🇸 Patriots</option>
+                <option value="british">🏴󠁧󠁢󠁥󠁮󠁧󠁿 British</option>
+                <option value="french">🇫🇷 French</option>
+                <option value="indians">🏕️ Indians</option>
+            </select>
+        </div>
+
+        <div class="control-group" id="number-selector" style="display: none;">
+            <label for="number-input">Numéro:</label>
+            <input type="number" id="number-input" min="0" max="12" value="0">
+        </div>
+
+        <div class="control-group" id="ship-selector" style="display: none;">
+            <label for="ship-select">Bateau:</label>
+            <select id="ship-select">
+                <option value="ship1">Bateau 1</option>
+                <option value="ship2">Bateau 2</option>
+                <option value="ship3">Bateau 3</option>
+            </select>
+        </div>
+
+        <div class="control-group">
+            <button id="clear-zone">Effacer Zone</button>
+            <button id="save-forces">💾 Sauvegarder</button>
+            <button id="load-forces">📁 Charger</button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="map-container">
+            <canvas id="forces-canvas"></canvas>
+        </div>
+
+        <div class="sidebar">
+            <div class="instructions">
+                <h3>📋 Instructions</h3>
+                <ol>
+                    <li>Sélectionnez le <strong>type de force</strong></li>
+                    <li>Choisissez la <strong>faction/numéro</strong> spécifique</li>
+                    <li><strong>Cliquez et glissez</strong> sur la carte</li>
+                    <li>Répétez pour toutes les zones requises</li>
+                </ol>
+                
+                <h4>Types de zones :</h4>
+                <ul>
+                    <li><strong>🏛️ Forces Faction</strong> : Zones des cubes disponibles</li>
+                    <li><strong>🏴󠁧󠁢󠁥󠁮󠁧󠁿 Forts British</strong> : 7 zones (0 à 6 forts)</li>
+                    <li><strong>🇺🇸 Forts Patriots</strong> : 7 zones (0 à 6 forts)</li>
+                    <li><strong>🏕️ Villages Indiens</strong> : 13 zones (0 à 12 villages)</li>
+                    <li><strong>🇫🇷 FNI</strong> : 4 zones (0 à 3 intervention navale)</li>
+                    <li><strong>⚓ Bateaux</strong> : 3 zones (bateaux français)</li>
+                </ul>
+            </div>
+
+            <div class="current-selection" id="current-info">
+                <strong>Sélection actuelle:</strong><br>
+                Type: <span id="current-type">🏛️ Forces par Faction</span><br>
+                Élément: <span id="current-element">🇺🇸 Patriots</span>
+            </div>
+
+            <div id="zone-details" class="zone-details"></div>
+
+            <div class="progress-section">
+                <h3>📊 Progrès par Catégorie</h3>
+                <div id="progress-container">
+                    <!-- Sera rempli par JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Input file caché -->
+    <input type="file" id="file-input" accept=".json" style="display: none;">
+
+    <script src="forces-zones.js"></script>
+</body>
+</html>

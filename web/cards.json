@@ -1,0 +1,730 @@
+{
+  "Waxhaws Massacre": {
+    "name": "Waxhaws Massacre",
+    "id": 1,
+    "description": "Carte historique: Waxhaws Massacre",
+    "image": "01 Waxhaws Massacre.png",
+    "is_winter": false
+  },
+  "Common Sense": {
+    "name": "Common Sense",
+    "id": 2,
+    "description": "Carte historique: Common Sense",
+    "image": "02 Common Sense.png",
+    "is_winter": false
+  },
+  "George Rogers Clark's Illinois Campaign": {
+    "name": "George Rogers Clark's Illinois Campaign",
+    "id": 3,
+    "description": "Carte historique: George Rogers Clark's Illinois Campaign",
+    "image": "03 George Rogers Clark's Illinois Campaign.png",
+    "is_winter": false
+  },
+  "Penobscot Expedition": {
+    "name": "Penobscot Expedition",
+    "id": 4,
+    "description": "Carte historique: Penobscot Expedition",
+    "image": "04 Penobscot Expedition.png",
+    "is_winter": false
+  },
+  "William Lord Stirling": {
+    "name": "William Lord Stirling",
+    "id": 5,
+    "description": "Carte historique: William Lord Stirling",
+    "image": "05 William Lord Stirling.png",
+    "is_winter": false
+  },
+  "Benedict Arnold": {
+    "name": "Benedict Arnold",
+    "id": 6,
+    "description": "Carte historique: Benedict Arnold",
+    "image": "06 Benedict Arnold.png",
+    "is_winter": false
+  },
+  "John Paul Jones": {
+    "name": "John Paul Jones",
+    "id": 7,
+    "description": "Carte historique: John Paul Jones",
+    "image": "07 John Paul Jones.png",
+    "is_winter": false
+  },
+  "Culper Spy Ring": {
+    "name": "Culper Spy Ring",
+    "id": 8,
+    "description": "Carte historique: Culper Spy Ring",
+    "image": "08 Culper Spy Ring.png",
+    "is_winter": false
+  },
+  "Friedrich Wilhelm von Steuben": {
+    "name": "Friedrich Wilhelm von Steuben",
+    "id": 9,
+    "description": "Carte historique: Friedrich Wilhelm von Steuben",
+    "image": "09 Friedrich Wilhelm von Steuben.png",
+    "is_winter": false
+  },
+  "Benjamin Franklin Travels to France": {
+    "name": "Benjamin Franklin Travels to France",
+    "id": 10,
+    "description": "Carte historique: Benjamin Franklin Travels to France",
+    "image": "10 Benjamin Franklin Travels to France.png",
+    "is_winter": false
+  },
+  "Winter Quarters 100": {
+    "name": "Winter Quarters 100",
+    "id": 100,
+    "description": "Carte Winter - Quartiers d'hiver #100",
+    "image": "100 Winter Quarters.png",
+    "is_winter": true
+  },
+  "Winter Quarters 101": {
+    "name": "Winter Quarters 101",
+    "id": 101,
+    "description": "Carte Winter - Quartiers d'hiver #101",
+    "image": "101 Winter Quarters.png",
+    "is_winter": true
+  },
+  "Winter Quarters 102": {
+    "name": "Winter Quarters 102",
+    "id": 102,
+    "description": "Carte Winter - Quartiers d'hiver #102",
+    "image": "102 Winter Quarters.png",
+    "is_winter": true
+  },
+  "Winter Quarters 103": {
+    "name": "Winter Quarters 103",
+    "id": 103,
+    "description": "Carte Winter - Quartiers d'hiver #103",
+    "image": "103 Winter Quarters.png",
+    "is_winter": true
+  },
+  "Winter Quarters 104": {
+    "name": "Winter Quarters 104",
+    "id": 104,
+    "description": "Carte Winter - Quartiers d'hiver #104",
+    "image": "104 Winter Quarters.png",
+    "is_winter": true
+  },
+  "Thaddeus Kosciuszkho Expert Engineer": {
+    "name": "Thaddeus Kosciuszkho Expert Engineer",
+    "id": 11,
+    "description": "Carte historique: Thaddeus Kosciuszkho Expert Engineer",
+    "image": "11 Thaddeus Kosciuszkho Expert Engineer.png",
+    "is_winter": false
+  },
+  "Martha Washington to Valley Forge": {
+    "name": "Martha Washington to Valley Forge",
+    "id": 12,
+    "description": "Carte historique: Martha Washington to Valley Forge",
+    "image": "12 Martha Washington to Valley Forge.png",
+    "is_winter": false
+  },
+  "the origin of all our misfortunes": {
+    "name": "the origin of all our misfortunes",
+    "id": 13,
+    "description": "Carte historique: the origin of all our misfortunes",
+    "image": "13 the origin of all our misfortunes.png",
+    "is_winter": false
+  },
+  "Overmountain Men Fight for NC": {
+    "name": "Overmountain Men Fight for NC",
+    "id": 14,
+    "description": "Carte historique: Overmountain Men Fight for NC",
+    "image": "14 Overmountain Men Fight for NC.png",
+    "is_winter": false
+  },
+  "Morgan's Rifles": {
+    "name": "Morgan's Rifles",
+    "id": 15,
+    "description": "Carte historique: Morgan's Rifles",
+    "image": "15 Morgan's Rifles.png",
+    "is_winter": false
+  },
+  "Mercy Warren's The Motley Assembly": {
+    "name": "Mercy Warren's The Motley Assembly",
+    "id": 16,
+    "description": "Carte historique: Mercy Warren's The Motley Assembly",
+    "image": "16 Mercy Warren's The Motley Assembly.png",
+    "is_winter": false
+  },
+  "Jane McCrea Murdered by Indians": {
+    "name": "Jane McCrea Murdered by Indians",
+    "id": 17,
+    "description": "Carte historique: Jane McCrea Murdered by Indians",
+    "image": "17 Jane McCrea Murdered by Indians.png",
+    "is_winter": false
+  },
+  "If it hadn't been so stormy": {
+    "name": "If it hadn't been so stormy",
+    "id": 18,
+    "description": "Carte historique: If it hadn't been so stormy",
+    "image": "18 If it hadn't been so stormy.png",
+    "is_winter": false
+  },
+  "Legend of Nathan Hale": {
+    "name": "Legend of Nathan Hale",
+    "id": 19,
+    "description": "Carte historique: Legend of Nathan Hale",
+    "image": "19 Legend of Nathan Hale.png",
+    "is_winter": false
+  },
+  "Continental Marines": {
+    "name": "Continental Marines",
+    "id": 20,
+    "description": "Carte historique: Continental Marines",
+    "image": "20 Continental Marines.png",
+    "is_winter": false
+  },
+  "The Gamecock Thomas Sumter": {
+    "name": "The Gamecock Thomas Sumter",
+    "id": 21,
+    "description": "Carte historique: The Gamecock Thomas Sumter",
+    "image": "21 The Gamecock Thomas Sumter.png",
+    "is_winter": false
+  },
+  "The Newburgh Conspiracy": {
+    "name": "The Newburgh Conspiracy",
+    "id": 22,
+    "description": "Carte historique: The Newburgh Conspiracy",
+    "image": "22 The Newburgh Conspiracy.png",
+    "is_winter": false
+  },
+  "Lieutenant Colonel Francis Marion": {
+    "name": "Lieutenant Colonel Francis Marion",
+    "id": 23,
+    "description": "Carte historique: Lieutenant Colonel Francis Marion",
+    "image": "23 Lieutenant Colonel Francis Marion.png",
+    "is_winter": false
+  },
+  "Declaration of Independence": {
+    "name": "Declaration of Independence",
+    "id": 24,
+    "description": "Carte historique: Declaration of Independence",
+    "image": "24 Declaration of Independence.png",
+    "is_winter": false
+  },
+  "British Prison Ships": {
+    "name": "British Prison Ships",
+    "id": 25,
+    "description": "Carte historique: British Prison Ships",
+    "image": "25 British Prison Ships.png",
+    "is_winter": false
+  },
+  "Josia Martin NC Royal Governor Plots": {
+    "name": "Josia Martin NC Royal Governor Plots",
+    "id": 26,
+    "description": "Carte historique: Josia Martin NC Royal Governor Plots",
+    "image": "26 Josia Martin NC Royal Governor Plots.png",
+    "is_winter": false
+  },
+  "The Queen's Rangers Show for Battle": {
+    "name": "The Queen's Rangers Show for Battle",
+    "id": 27,
+    "description": "Carte historique: The Queen's Rangers Show for Battle",
+    "image": "27 The Queen's Rangers Show for Battle.png",
+    "is_winter": false
+  },
+  "Battle of Moore's Creek Bridge": {
+    "name": "Battle of Moore's Creek Bridge",
+    "id": 28,
+    "description": "Carte historique: Battle of Moore's Creek Bridge",
+    "image": "28 Battle of Moore's Creek Bridge.png",
+    "is_winter": false
+  },
+  "Edward Bancroft, British Spy": {
+    "name": "Edward Bancroft, British Spy",
+    "id": 29,
+    "description": "Carte historique: Edward Bancroft, British Spy",
+    "image": "29 Edward Bancroft, British Spy.png",
+    "is_winter": false
+  },
+  "Hessians": {
+    "name": "Hessians",
+    "id": 30,
+    "description": "Carte historique: Hessians",
+    "image": "30 Hessians.png",
+    "is_winter": false
+  },
+  "Thomas Brown & the King's Rangers": {
+    "name": "Thomas Brown & the King's Rangers",
+    "id": 31,
+    "description": "Carte historique: Thomas Brown & the King's Rangers",
+    "image": "31 Thomas Brown & the King's Rangers.png",
+    "is_winter": false
+  },
+  "Rule Britannia": {
+    "name": "Rule Britannia",
+    "id": 32,
+    "description": "Carte historique: Rule Britannia",
+    "image": "32 Rule Britannia.png",
+    "is_winter": false
+  },
+  "The Burning of Falmouth": {
+    "name": "The Burning of Falmouth",
+    "id": 33,
+    "description": "Carte historique: The Burning of Falmouth",
+    "image": "33 The Burning of Falmouth.png",
+    "is_winter": false
+  },
+  "Lord Sandwich, First Lord of the Admiralty": {
+    "name": "Lord Sandwich, First Lord of the Admiralty",
+    "id": 34,
+    "description": "Carte historique: Lord Sandwich, First Lord of the Admiralty",
+    "image": "34 Lord Sandwich, First Lord of the Admiralty.png",
+    "is_winter": false
+  },
+  "Tryon Plot": {
+    "name": "Tryon Plot",
+    "id": 35,
+    "description": "Carte historique: Tryon Plot",
+    "image": "35 Tryon Plot.png",
+    "is_winter": false
+  },
+  "Naval Battle in West Indies": {
+    "name": "Naval Battle in West Indies",
+    "id": 36,
+    "description": "Carte historique: Naval Battle in West Indies",
+    "image": "36 Naval Battle in West Indies.png",
+    "is_winter": false
+  },
+  "The Armada of 1779": {
+    "name": "The Armada of 1779",
+    "id": 37,
+    "description": "Carte historique: The Armada of 1779",
+    "image": "37 The Armada of 1779.png",
+    "is_winter": false
+  },
+  "Johnson's Royal Greens": {
+    "name": "Johnson's Royal Greens",
+    "id": 38,
+    "description": "Carte historique: Johnson's Royal Greens",
+    "image": "38 Johnson's Royal Greens.png",
+    "is_winter": false
+  },
+  "Gordon Riots": {
+    "name": "Gordon Riots",
+    "id": 39,
+    "description": "Carte historique: Gordon Riots",
+    "image": "39 Gordon Riots.png",
+    "is_winter": false
+  },
+  "Battle of the Chesapeake": {
+    "name": "Battle of the Chesapeake",
+    "id": 40,
+    "description": "Carte historique: Battle of the Chesapeake",
+    "image": "40 Battle of the Chesapeake.png",
+    "is_winter": false
+  },
+  "William Pitt America Can't Be Conquered": {
+    "name": "William Pitt America Can't Be Conquered",
+    "id": 41,
+    "description": "Carte historique: William Pitt America Can't Be Conquered",
+    "image": "41 William Pitt America Can't Be Conquered.png",
+    "is_winter": false
+  },
+  "British Attack Danbury": {
+    "name": "British Attack Danbury",
+    "id": 42,
+    "description": "Carte historique: British Attack Danbury",
+    "image": "42 British Attack Danbury.png",
+    "is_winter": false
+  },
+  "HMS Russian Merchant with 4,000 Muskets": {
+    "name": "HMS Russian Merchant with 4,000 Muskets",
+    "id": 43,
+    "description": "Carte historique: HMS Russian Merchant with 4,000 Muskets",
+    "image": "43 HMS Russian Merchant with 4,000 Muskets.png",
+    "is_winter": false
+  },
+  "Earl of Mansfield Recalled from Paris": {
+    "name": "Earl of Mansfield Recalled from Paris",
+    "id": 44,
+    "description": "Carte historique: Earl of Mansfield Recalled from Paris",
+    "image": "44 Earl of Mansfield Recalled from Paris.png",
+    "is_winter": false
+  },
+  "Adam Smith Wealth of Nations": {
+    "name": "Adam Smith Wealth of Nations",
+    "id": 45,
+    "description": "Carte historique: Adam Smith Wealth of Nations",
+    "image": "45 Adam Smith Wealth of Nations.png",
+    "is_winter": false
+  },
+  "Edmund Burke on Conciliation": {
+    "name": "Edmund Burke on Conciliation",
+    "id": 46,
+    "description": "Carte historique: Edmund Burke on Conciliation",
+    "image": "46 Edmund Burke on Conciliation.png",
+    "is_winter": false
+  },
+  "Tories Tested": {
+    "name": "Tories Tested",
+    "id": 47,
+    "description": "Carte historique: Tories Tested",
+    "image": "47 Tories Tested.png",
+    "is_winter": false
+  },
+  "God Save the King": {
+    "name": "God Save the King",
+    "id": 48,
+    "description": "Carte historique: God Save the King",
+    "image": "48 God Save the King.png",
+    "is_winter": false
+  },
+  "Claude Louise, Comte de Saint-Germain": {
+    "name": "Claude Louise, Comte de Saint-Germain",
+    "id": 49,
+    "description": "Carte historique: Claude Louise, Comte de Saint-Germain",
+    "image": "49 Claude Louise, Comte de Saint-Germain.png",
+    "is_winter": false
+  },
+  "Admiral d'Estang, French Fleet Arrives": {
+    "name": "Admiral d'Estang, French Fleet Arrives",
+    "id": 50,
+    "description": "Carte historique: Admiral d'Estang, French Fleet Arrives",
+    "image": "50 Admiral d'Estang, French Fleet Arrives.png",
+    "is_winter": false
+  },
+  "Bermuda Gunpowder Plot": {
+    "name": "Bermuda Gunpowder Plot",
+    "id": 51,
+    "description": "Carte historique: Bermuda Gunpowder Plot",
+    "image": "51 Bermuda Gunpowder Plot.png",
+    "is_winter": false
+  },
+  "French Fleet Arrives in the Wrong Spot": {
+    "name": "French Fleet Arrives in the Wrong Spot",
+    "id": 52,
+    "description": "Carte historique: French Fleet Arrives in the Wrong Spot",
+    "image": "52 French Fleet Arrives in the Wrong Spot.png",
+    "is_winter": false
+  },
+  "French Ports Accept Patriot's Ships": {
+    "name": "French Ports Accept Patriot's Ships",
+    "id": 53,
+    "description": "Carte historique: French Ports Accept Patriot's Ships",
+    "image": "53 French Ports Accept Patriot's Ships.png",
+    "is_winter": false
+  },
+  "Antoine de Sartine, Secretary of the Navy": {
+    "name": "Antoine de Sartine, Secretary of the Navy",
+    "id": 54,
+    "description": "Carte historique: Antoine de Sartine, Secretary of the Navy",
+    "image": "54 Antoine de Sartine, Secretary of the Navy.png",
+    "is_winter": false
+  },
+  "French Navy Dominates Caribbean": {
+    "name": "French Navy Dominates Caribbean",
+    "id": 55,
+    "description": "Carte historique: French Navy Dominates Caribbean",
+    "image": "55 French Navy Dominates Caribbean.png",
+    "is_winter": false
+  },
+  "Jacques Turgot's Economic Liberalism": {
+    "name": "Jacques Turgot's Economic Liberalism",
+    "id": 56,
+    "description": "Carte historique: Jacques Turgot's Economic Liberalism",
+    "image": "56 Jacques Turgot's Economic Liberalism.png",
+    "is_winter": false
+  },
+  "French Fleet Sails for the Carribean": {
+    "name": "French Fleet Sails for the Carribean",
+    "id": 57,
+    "description": "Carte historique: French Fleet Sails for the Carribean",
+    "image": "57 French Fleet Sails for the Carribean.png",
+    "is_winter": false
+  },
+  "Marquis de Lafayette Arrives in Colonies": {
+    "name": "Marquis de Lafayette Arrives in Colonies",
+    "id": 58,
+    "description": "Carte historique: Marquis de Lafayette Arrives in Colonies",
+    "image": "58 Marquis de Lafayette Arrives in Colonies.png",
+    "is_winter": false
+  },
+  "Tronson du Coudray Arrives in America": {
+    "name": "Tronson du Coudray Arrives in America",
+    "id": 59,
+    "description": "Carte historique: Tronson du Coudray Arrives in America",
+    "image": "59 Tronson du Coudray Arrives in America.png",
+    "is_winter": false
+  },
+  "Comte d'Orvilliers Builds a Fleet at Brest": {
+    "name": "Comte d'Orvilliers Builds a Fleet at Brest",
+    "id": 60,
+    "description": "Carte historique: Comte d'Orvilliers Builds a Fleet at Brest",
+    "image": "60 Comte d'Orvilliers Builds a Fleet at Brest.png",
+    "is_winter": false
+  },
+  "Minister Comte de Vergennes": {
+    "name": "Minister Comte de Vergennes",
+    "id": 61,
+    "description": "Carte historique: Minister Comte de Vergennes",
+    "image": "61 Minister Comte de Vergennes.png",
+    "is_winter": false
+  },
+  "Charles Michel de Langlade": {
+    "name": "Charles Michel de Langlade",
+    "id": 62,
+    "description": "Carte historique: Charles Michel de Langlade",
+    "image": "62 Charles Michel de Langlade.png",
+    "is_winter": false
+  },
+  "French and Spanish Besiege Gibraltar": {
+    "name": "French and Spanish Besiege Gibraltar",
+    "id": 63,
+    "description": "Carte historique: French and Spanish Besiege Gibraltar",
+    "image": "63 French and Spanish Besiege Gibraltar.png",
+    "is_winter": false
+  },
+  "The Affair of Fielding and Bylandt": {
+    "name": "The Affair of Fielding and Bylandt",
+    "id": 64,
+    "description": "Carte historique: The Affair of Fielding and Bylandt",
+    "image": "64 The Affair of Fielding and Bylandt.png",
+    "is_winter": false
+  },
+  "Jacques Necker, Finance Minister": {
+    "name": "Jacques Necker, Finance Minister",
+    "id": 65,
+    "description": "Carte historique: Jacques Necker, Finance Minister",
+    "image": "65 Jacques Necker, Finance Minister.png",
+    "is_winter": false
+  },
+  "Don Bernardo Takes Pensacola": {
+    "name": "Don Bernardo Takes Pensacola",
+    "id": 66,
+    "description": "Carte historique: Don Bernardo Takes Pensacola",
+    "image": "66 Don Bernardo Takes Pensacola.png",
+    "is_winter": false
+  },
+  "De Grasse Arrives with the French Fleet": {
+    "name": "De Grasse Arrives with the French Fleet",
+    "id": 67,
+    "description": "Carte historique: De Grasse Arrives with the French Fleet",
+    "image": "67 De Grasse Arrives with the French Fleet.png",
+    "is_winter": false
+  },
+  "French in America Want Canada": {
+    "name": "French in America Want Canada",
+    "id": 68,
+    "description": "Carte historique: French in America Want Canada",
+    "image": "68 French in America Want Canada.png",
+    "is_winter": false
+  },
+  "Admiral Pierre Andre de Suffren": {
+    "name": "Admiral Pierre Andre de Suffren",
+    "id": 69,
+    "description": "Carte historique: Admiral Pierre Andre de Suffren",
+    "image": "69 Admiral Pierre Andre de Suffren.png",
+    "is_winter": false
+  },
+  "British Gain from French in India": {
+    "name": "British Gain from French in India",
+    "id": 70,
+    "description": "Carte historique: British Gain from French in India",
+    "image": "70 British Gain from French in India.png",
+    "is_winter": false
+  },
+  "Treaty of Amity and Commerce": {
+    "name": "Treaty of Amity and Commerce",
+    "id": 71,
+    "description": "Carte historique: Treaty of Amity and Commerce",
+    "image": "71 Treaty of Amity and Commerce.png",
+    "is_winter": false
+  },
+  "French Settlers Help": {
+    "name": "French Settlers Help",
+    "id": 72,
+    "description": "Carte historique: French Settlers Help",
+    "image": "72 French Settlers Help.png",
+    "is_winter": false
+  },
+  "Sullivan Expedition vs Iroquois and Tories": {
+    "name": "Sullivan Expedition vs Iroquois and Tories",
+    "id": 73,
+    "description": "Carte historique: Sullivan Expedition vs Iroquois and Tories",
+    "image": "73 Sullivan Expedition vs Iroquois and Tories.png",
+    "is_winter": false
+  },
+  "Chickasaw Ally with the British": {
+    "name": "Chickasaw Ally with the British",
+    "id": 74,
+    "description": "Carte historique: Chickasaw Ally with the British",
+    "image": "74 Chickasaw Ally with the British.png",
+    "is_winter": false
+  },
+  "Congress' Speech to the Six Nations": {
+    "name": "Congress' Speech to the Six Nations",
+    "id": 75,
+    "description": "Carte historique: Congress' Speech to the Six Nations",
+    "image": "75 Congress' Speech to the Six Nations.png",
+    "is_winter": false
+  },
+  "Edward Hand Raids into Indian Country": {
+    "name": "Edward Hand Raids into Indian Country",
+    "id": 76,
+    "description": "Carte historique: Edward Hand Raids into Indian Country",
+    "image": "76 Edward Hand Raids into Indian Country.png",
+    "is_winter": false
+  },
+  "General Burgoyne Cracks Down": {
+    "name": "General Burgoyne Cracks Down",
+    "id": 77,
+    "description": "Carte historique: General Burgoyne Cracks Down",
+    "image": "77 General Burgoyne Cracks Down.png",
+    "is_winter": false
+  },
+  "Cherry Valley Destroyed by Tories": {
+    "name": "Cherry Valley Destroyed by Tories",
+    "id": 78,
+    "description": "Carte historique: Cherry Valley Destroyed by Tories",
+    "image": "78 Cherry Valley Destroyed by Tories.png",
+    "is_winter": false
+  },
+  "Tuscarora and Oneida Come to Washington": {
+    "name": "Tuscarora and Oneida Come to Washington",
+    "id": 79,
+    "description": "Carte historique: Tuscarora and Oneida Come to Washington",
+    "image": "79 Tuscarora and Oneida Come to Washington.png",
+    "is_winter": false
+  },
+  "Confusion Allows Slaves to Escape": {
+    "name": "Confusion Allows Slaves to Escape",
+    "id": 80,
+    "description": "Carte historique: Confusion Allows Slaves to Escape",
+    "image": "80 Confusion Allows Slaves to Escape.png",
+    "is_winter": false
+  },
+  "Creek and Seminole Active in South": {
+    "name": "Creek and Seminole Active in South",
+    "id": 81,
+    "description": "Carte historique: Creek and Seminole Active in South",
+    "image": "81 Creek and Seminole Active in South.png",
+    "is_winter": false
+  },
+  "Frustrated Shawnee Warriors Attack": {
+    "name": "Frustrated Shawnee Warriors Attack",
+    "id": 82,
+    "description": "Carte historique: Frustrated Shawnee Warriors Attack",
+    "image": "82 Frustrated Shawnee Warriors Attack.png",
+    "is_winter": false
+  },
+  "Guy Carleton and Indians Negotiate": {
+    "name": "Guy Carleton and Indians Negotiate",
+    "id": 83,
+    "description": "Carte historique: Guy Carleton and Indians Negotiate",
+    "image": "83 Guy Carleton and Indians Negotiate.png",
+    "is_winter": false
+  },
+  "Merciless Indian Savages": {
+    "name": "Merciless Indian Savages",
+    "id": 84,
+    "description": "Carte historique: Merciless Indian Savages",
+    "image": "84 Merciless Indian Savages.png",
+    "is_winter": false
+  },
+  "Indians Help British Raids on Mississippi": {
+    "name": "Indians Help British Raids on Mississippi",
+    "id": 85,
+    "description": "Carte historique: Indians Help British Raids on Mississippi",
+    "image": "85 Indians Help British Raids on Mississippi.png",
+    "is_winter": false
+  },
+  "Stockbridge Indians": {
+    "name": "Stockbridge Indians",
+    "id": 86,
+    "description": "Carte historique: Stockbridge Indians",
+    "image": "86 Stockbridge Indians.png",
+    "is_winter": false
+  },
+  "Patriots Massacre Lenape Indians": {
+    "name": "Patriots Massacre Lenape Indians",
+    "id": 87,
+    "description": "Carte historique: Patriots Massacre Lenape Indians",
+    "image": "87 Patriots Massacre Lenape Indians.png",
+    "is_winter": false
+  },
+  "If it hadn't been so foggy": {
+    "name": "If it hadn't been so foggy",
+    "id": 88,
+    "description": "Carte historique: If it hadn't been so foggy",
+    "image": "88 If it hadn't been so foggy.png",
+    "is_winter": false
+  },
+  "War Damages Colonies' Economy": {
+    "name": "War Damages Colonies' Economy",
+    "id": 89,
+    "description": "Carte historique: War Damages Colonies' Economy",
+    "image": "89 War Damages Colonies' Economy.png",
+    "is_winter": false
+  },
+  "The World Turned Upside Down": {
+    "name": "The World Turned Upside Down",
+    "id": 90,
+    "description": "Carte historique: The World Turned Upside Down",
+    "image": "90 The World Turned Upside Down.png",
+    "is_winter": false
+  },
+  "Indians Help British Outside Colonies": {
+    "name": "Indians Help British Outside Colonies",
+    "id": 91,
+    "description": "Carte historique: Indians Help British Outside Colonies",
+    "image": "91 Indians Help British Outside Colonies.png",
+    "is_winter": false
+  },
+  "Cherokees Supplied by the British": {
+    "name": "Cherokees Supplied by the British",
+    "id": 92,
+    "description": "Carte historique: Cherokees Supplied by the British",
+    "image": "92 Cherokees Supplied by the British.png",
+    "is_winter": false
+  },
+  "Wyoming Massacre": {
+    "name": "Wyoming Massacre",
+    "id": 93,
+    "description": "Carte historique: Wyoming Massacre",
+    "image": "93 Wyoming Massacre.png",
+    "is_winter": false
+  },
+  "Herkimer's Relief Column": {
+    "name": "Herkimer's Relief Column",
+    "id": 94,
+    "description": "Carte historique: Herkimer's Relief Column",
+    "image": "94 Herkimer's Relief Column.png",
+    "is_winter": false
+  },
+  "Ohio Country Frontier Erupts": {
+    "name": "Ohio Country Frontier Erupts",
+    "id": 95,
+    "description": "Carte historique: Ohio Country Frontier Erupts",
+    "image": "95 Ohio Country Frontier Erupts.png",
+    "is_winter": false
+  },
+  "Iroquois Confederacy": {
+    "name": "Iroquois Confederacy",
+    "id": 96,
+    "description": "Carte historique: Iroquois Confederacy",
+    "image": "96 Iroquois Confederacy.png",
+    "is_winter": false
+  },
+  "Winter Quarters 97": {
+    "name": "Winter Quarters 97",
+    "id": 97,
+    "description": "Carte Winter - Quartiers d'hiver #97",
+    "image": "97 Winter Quarters.png",
+    "is_winter": true
+  },
+  "Winter Quarters 98": {
+    "name": "Winter Quarters 98",
+    "id": 98,
+    "description": "Carte Winter - Quartiers d'hiver #98",
+    "image": "98 Winter Quarters.png",
+    "is_winter": true
+  },
+  "Winter Quarters 99": {
+    "name": "Winter Quarters 99",
+    "id": 99,
+    "description": "Carte Winter - Quartiers d'hiver #99",
+    "image": "99 Winter Quarters.png",
+    "is_winter": true
+  }
+}

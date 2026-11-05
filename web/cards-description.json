@@ -1,0 +1,2920 @@
+{
+  "version": "1.0",
+  "createdAt": "2025-09-17T19:43:33.600Z",
+  "totalCards": 104,
+  "configuredCards": 104,
+  "cardConfigs": {
+    "Waxhaws Massacre": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:21:25.656Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Common Sense": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:21:35.022Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "George Rogers Clark's Illinois Campaign": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:21:45.820Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Penobscot Expedition": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:22:00.037Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": true
+        }
+      ]
+    },
+    "William Lord Stirling": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:22:31.855Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Benedict Arnold": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:22:27.256Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "John Paul Jones": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:22:43.604Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Culper Spy Ring": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:23:03.157Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 2,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Friedrich Wilhelm von Steuben": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:23:20.272Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "indians",
+          "sabre": true,
+          "rifle": false
+        }
+      ]
+    },
+    "Benjamin Franklin Travels to France": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:23:33.873Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Winter Quarters 100": {
+      "type": "winter",
+      "configuredAt": "2025-09-17T19:23:39.022Z"
+    },
+    "Winter Quarters 101": {
+      "type": "winter",
+      "configuredAt": "2025-09-17T19:23:43.937Z"
+    },
+    "Winter Quarters 102": {
+      "type": "winter",
+      "configuredAt": "2025-09-17T19:23:46.755Z"
+    },
+    "Winter Quarters 103": {
+      "type": "winter",
+      "configuredAt": "2025-09-17T19:23:49.422Z"
+    },
+    "Winter Quarters 104": {
+      "type": "winter",
+      "configuredAt": "2025-09-17T19:23:52.054Z"
+    },
+    "Thaddeus Kosciuszkho Expert Engineer": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:24:06.890Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Martha Washington to Valley Forge": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:24:17.273Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "the origin of all our misfortunes": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:24:27.809Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Overmountain Men Fight for NC": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:24:38.211Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Morgan's Rifles": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:24:53.088Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Mercy Warren's The Motley Assembly": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:25:08.523Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "indians",
+          "sabre": true,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Jane McCrea Murdered by Indians": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:25:24.305Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "french",
+          "sabre": true,
+          "rifle": false
+        }
+      ]
+    },
+    "If it hadn't been so stormy": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:25:48.221Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 2,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 3,
+          "faction": "british",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 4,
+          "faction": "french",
+          "sabre": true,
+          "rifle": false
+        }
+      ]
+    },
+    "Legend of Nathan Hale": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:26:02.222Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Continental Marines": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:26:15.372Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "The Gamecock Thomas Sumter": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:26:32.723Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 3,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "The Newburgh Conspiracy": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:26:51.757Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 3,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Lieutenant Colonel Francis Marion": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:27:03.606Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "british",
+          "sabre": false,
+          "rifle": true
+        }
+      ]
+    },
+    "Declaration of Independence": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:27:17.924Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "British Prison Ships": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:27:31.023Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Josia Martin NC Royal Governor Plots": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:27:45.857Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "indians",
+          "sabre": true,
+          "rifle": false
+        }
+      ]
+    },
+    "The Queen's Rangers Show for Battle": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:28:02.156Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "indians",
+          "sabre": true,
+          "rifle": false
+        }
+      ]
+    },
+    "Battle of Moore's Creek Bridge": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:28:17.588Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Edward Bancroft, British Spy": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:28:37.390Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "british",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 2,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 3,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 4,
+          "faction": "french",
+          "sabre": true,
+          "rifle": false
+        }
+      ]
+    },
+    "Hessians": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:28:57.440Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "british",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 2,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Thomas Brown & the King's Rangers": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:29:08.657Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Rule Britannia": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:29:23.928Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 4,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "The Burning of Falmouth": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:29:41.224Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Lord Sandwich, First Lord of the Admiralty": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:29:56.870Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Tryon Plot": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:30:08.240Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Naval Battle in West Indies": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:30:20.047Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "The Armada of 1779": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:30:29.755Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Johnson's Royal Greens": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:30:40.389Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "indians",
+          "sabre": true,
+          "rifle": false
+        }
+      ]
+    },
+    "Gordon Riots": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:30:52.774Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Battle of the Chesapeake": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:31:03.540Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "William Pitt America Can't Be Conquered": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:31:18.107Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "British Attack Danbury": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:31:30.104Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "HMS Russian Merchant with 4,000 Muskets": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:31:42.871Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Earl of Mansfield Recalled from Paris": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:31:59.506Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "british",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 2,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 3,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 4,
+          "faction": "french",
+          "sabre": true,
+          "rifle": false
+        }
+      ]
+    },
+    "Adam Smith Wealth of Nations": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:32:10.224Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Edmund Burke on Conciliation": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:32:20.623Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Tories Tested": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:32:32.981Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "God Save the King": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:32:48.872Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "indians",
+          "sabre": true,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "french",
+          "sabre": true,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "patriots",
+          "sabre": true,
+          "rifle": false
+        }
+      ]
+    },
+    "Claude Louise, Comte de Saint-Germain": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:32:59.404Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Admiral d'Estang, French Fleet Arrives": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:33:12.356Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Bermuda Gunpowder Plot": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:33:38.107Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "french",
+          "sabre": true,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 3,
+          "faction": "british",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 4,
+          "faction": "indians",
+          "sabre": true,
+          "rifle": false
+        }
+      ]
+    },
+    "French Fleet Arrives in the Wrong Spot": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:33:59.691Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "french",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 2,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 3,
+          "faction": "british",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 4,
+          "faction": "indians",
+          "sabre": true,
+          "rifle": false
+        }
+      ]
+    },
+    "French Ports Accept Patriot's Ships": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:34:11.957Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Antoine de Sartine, Secretary of the Navy": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:34:23.924Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "French Navy Dominates Caribbean": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:34:34.204Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Jacques Turgot's Economic Liberalism": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:34:44.073Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "French Fleet Sails for the Carribean": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:34:56.563Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Marquis de Lafayette Arrives in Colonies": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:35:06.271Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Tronson du Coudray Arrives in America": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:35:15.881Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Comte d'Orvilliers Builds a Fleet at Brest": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:35:27.291Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Minister Comte de Vergennes": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:35:36.324Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Charles Michel de Langlade": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:35:50.207Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "french",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 2,
+          "faction": "british",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 3,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "French and Spanish Besiege Gibraltar": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:36:00.119Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "The Affair of Fielding and Bylandt": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:36:13.439Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Jacques Necker, Finance Minister": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:36:27.807Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "patriots",
+          "sabre": true,
+          "rifle": false
+        }
+      ]
+    },
+    "Don Bernardo Takes Pensacola": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:36:43.725Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "british",
+          "sabre": true,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "De Grasse Arrives with the French Fleet": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:36:54.756Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "French in America Want Canada": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:37:09.674Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "french",
+          "sabre": true,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "indians",
+          "sabre": true,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "british",
+          "sabre": true,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Admiral Pierre Andre de Suffren": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:37:21.291Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "British Gain from French in India": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:37:37.806Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "french",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 2,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 3,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 4,
+          "faction": "british",
+          "sabre": false,
+          "rifle": true
+        }
+      ]
+    },
+    "Treaty of Amity and Commerce": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:37:56.623Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "indians",
+          "sabre": true,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 4,
+          "faction": "british",
+          "sabre": true,
+          "rifle": false
+        }
+      ]
+    },
+    "French Settlers Help": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:38:10.107Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 3,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "british",
+          "sabre": true,
+          "rifle": false
+        }
+      ]
+    },
+    "Sullivan Expedition vs Iroquois and Tories": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:38:23.406Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "french",
+          "sabre": false,
+          "rifle": true
+        }
+      ]
+    },
+    "Chickasaw Ally with the British": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:38:35.806Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "french",
+          "sabre": true,
+          "rifle": false
+        }
+      ]
+    },
+    "Congress' Speech to the Six Nations": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:38:48.390Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "french",
+          "sabre": true,
+          "rifle": false
+        }
+      ]
+    },
+    "Edward Hand Raids into Indian Country": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:38:59.739Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "french",
+          "sabre": true,
+          "rifle": false
+        }
+      ]
+    },
+    "General Burgoyne Cracks Down": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:39:12.064Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "french",
+          "sabre": true,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Cherry Valley Destroyed by Tories": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:39:20.725Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Tuscarora and Oneida Come to Washington": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:39:33.740Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "french",
+          "sabre": true,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "british",
+          "sabre": true,
+          "rifle": false
+        }
+      ]
+    },
+    "Confusion Allows Slaves to Escape": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:39:51.290Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 2,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 3,
+          "faction": "french",
+          "sabre": true,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "british",
+          "sabre": false,
+          "rifle": true
+        }
+      ]
+    },
+    "Creek and Seminole Active in South": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:40:01.231Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Frustrated Shawnee Warriors Attack": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:40:10.607Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Guy Carleton and Indians Negotiate": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:40:26.473Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 2,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 4,
+          "faction": "french",
+          "sabre": false,
+          "rifle": true
+        }
+      ]
+    },
+    "Merciless Indian Savages": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:40:37.823Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "french",
+          "sabre": true,
+          "rifle": false
+        }
+      ]
+    },
+    "Indians Help British Raids on Mississippi": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:40:52.392Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "british",
+          "sabre": true,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Stockbridge Indians": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:41:03.606Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": true
+        }
+      ]
+    },
+    "Patriots Massacre Lenape Indians": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:41:15.256Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "If it hadn't been so foggy": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:41:31.223Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 2,
+          "faction": "british",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 3,
+          "faction": "french",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 4,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": true
+        }
+      ]
+    },
+    "War Damages Colonies' Economy": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:41:45.027Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 2,
+          "faction": "french",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 3,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "The World Turned Upside Down": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:41:56.973Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 2,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": true
+        }
+      ]
+    },
+    "Indians Help British Outside Colonies": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:42:12.121Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "french",
+          "sabre": true,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Cherokees Supplied by the British": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:42:23.857Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "british",
+          "sabre": true,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Wyoming Massacre": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:42:32.807Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Herkimer's Relief Column": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:42:45.106Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "french",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "british",
+          "sabre": false,
+          "rifle": false
+        }
+      ]
+    },
+    "Ohio Country Frontier Erupts": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:42:59.190Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "french",
+          "sabre": false,
+          "rifle": true
+        },
+        {
+          "turn": 3,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "british",
+          "sabre": false,
+          "rifle": true
+        }
+      ]
+    },
+    "Iroquois Confederacy": {
+      "type": "normal",
+      "configuredAt": "2025-09-17T19:43:15.595Z",
+      "turns": [
+        {
+          "turn": 1,
+          "faction": "indians",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 2,
+          "faction": "french",
+          "sabre": true,
+          "rifle": false
+        },
+        {
+          "turn": 3,
+          "faction": "patriots",
+          "sabre": false,
+          "rifle": false
+        },
+        {
+          "turn": 4,
+          "faction": "british",
+          "sabre": true,
+          "rifle": false
+        }
+      ]
+    },
+    "Winter Quarters 97": {
+      "type": "winter",
+      "configuredAt": "2025-09-17T19:43:18.513Z"
+    },
+    "Winter Quarters 98": {
+      "type": "winter",
+      "configuredAt": "2025-09-17T19:43:20.530Z"
+    },
+    "Winter Quarters 99": {
+      "type": "winter",
+      "configuredAt": "2025-09-17T19:43:24.165Z"
+    }
+  }
+}

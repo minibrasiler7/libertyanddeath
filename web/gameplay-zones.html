@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liberty and Death - Zones de Gameplay</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #fd7e14 0%, #e83e8c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .controls {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .control-group label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        select, input, button {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        select, input {
+            min-width: 120px;
+        }
+
+        button {
+            background: #fd7e14;
+            color: white;
+            border: 2px solid #fd7e14;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        button:hover {
+            background: #e8690b;
+            border-color: #e8690b;
+        }
+
+        .zone-type-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .zone-type-btn {
+            padding: 12px 16px;
+            border: 2px solid;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        .zone-type-btn.unavailable_forces {
+            border-color: #6c757d;
+            color: #495057;
+        }
+        .zone-type-btn.unavailable_forces.active {
+            background: #6c757d;
+            color: white;
+        }
+
+        .zone-type-btn.casualties {
+            border-color: #dc3545;
+            color: #721c24;
+        }
+        .zone-type-btn.casualties.active {
+            background: #dc3545;
+            color: white;
+        }
+
+        .zone-type-btn.game_sequence {
+            border-color: #17a2b8;
+            color: #0c5460;
+        }
+        .zone-type-btn.game_sequence.active {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 450px;
+            gap: 20px;
+        }
+
+        .map-container {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        #gameplay-canvas {
+            cursor: crosshair;
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .sidebar {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+
+        .instructions {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #ffc107;
+        }
+
+        .current-selection {
+            background: #d1ecf1;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #17a2b8;
+        }
+
+        .progress-section {
+            margin-top: 20px;
+        }
+
+        .category-progress {
+            margin-bottom: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            background: #f8f9fa;
+        }
+
+        .category-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #495057;
+            font-size: 14px;
+        }
+
+        .sequence-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 4px;
+            margin-top: 8px;
+        }
+
+        .other-grid {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .progress-box {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            font-weight: bold;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.2s;
+            padding: 2px;
+            text-align: center;
+            line-height: 1.1;
+        }
+
+        .progress-box.sequence {
+            min-height: 40px;
+            font-size: 8px;
+        }
+
+        .progress-box.complete {
+            background: #28a745;
+            color: white;
+        }
+
+        .progress-box.empty {
+            background: #e9ecef;
+            color: #495057;
+            border: 1px solid #dee2e6;
+        }
+
+        .progress-box.current {
+            box-shadow: 0 0 0 3px #fd7e14;
+        }
+
+        .zone-details {
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 12px;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        .sequence-descriptions {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 12px;
+        }
+
+        .sequence-item {
+            margin-bottom: 8px;
+            padding: 4px 0;
+        }
+
+        .sequence-number {
+            font-weight: bold;
+            color: #17a2b8;
+            display: inline-block;
+            width: 25px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎮 Liberty and Death - Zones de Gameplay</h1>
+        <p>Zones pour forces non disponibles, casualties et séquence de jeu</p>
+    </div>
+
+    <div class="controls">
+        <div class="control-group">
+            <label>Type de zone:</label>
+            <div class="zone-type-selector">
+                <div class="zone-type-btn unavailable_forces active" data-type="unavailable_forces">⚫ Forces Non Disponibles</div>
+                <div class="zone-type-btn casualties" data-type="casualties">💀 Casualties (Unités Mortes)</div>
+                <div class="zone-type-btn game_sequence" data-type="game_sequence">🎯 Séquence de Jeu (1-10)</div>
+            </div>
+        </div>
+
+        <div class="control-group" id="faction-selector" style="display: block;">
+            <label for="faction-select">Faction:</label>
+            <select id="faction-select">
+                <option value="british">🏴󠁧󠁢󠁥󠁮󠁧󠁿 British</option>
+                <option value="french">🇫🇷 French</option>
+            </select>
+        </div>
+
+        <div class="control-group" id="sequence-selector" style="display: none;">
+            <label for="sequence-select">Étape:</label>
+            <select id="sequence-select">
+                <option value="1">1 - Event Card</option>
+                <option value="2">2 - Eligible Faction</option>
+                <option value="3">3 - Pass</option>
+                <option value="4">4 - 1st Faction Command Only</option>
+                <option value="5">5 - 2nd Faction Limited Command</option>
+                <option value="6">6 - 1st Faction Command + Special</option>
+                <option value="7">7 - 2nd Faction Limited/Event</option>
+                <option value="8">8 - 1st Faction Event</option>
+                <option value="9">9 - 2nd Faction Command + Special</option>
+                <option value="10">10 - Ineligible Faction</option>
+            </select>
+        </div>
+
+        <div class="control-group">
+            <button id="clear-zone">Effacer Zone</button>
+            <button id="save-gameplay">💾 Sauvegarder</button>
+            <button id="load-gameplay">📁 Charger</button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="map-container">
+            <canvas id="gameplay-canvas"></canvas>
+        </div>
+
+        <div class="sidebar">
+            <div class="instructions">
+                <h3>📋 Instructions</h3>
+                <ol>
+                    <li>Sélectionnez le <strong>type de zone</strong></li>
+                    <li>Choisissez l'<strong>élément spécifique</strong></li>
+                    <li><strong>Cliquez et glissez</strong> sur la carte</li>
+                    <li>Répétez pour toutes les zones</li>
+                </ol>
+                
+                <h4>Types de zones :</h4>
+                <ul>
+                    <li><strong>⚫ Forces Non Disponibles</strong> : British + French</li>
+                    <li><strong>💀 Casualties</strong> : Unités mortes</li>
+                    <li><strong>🎯 Séquence</strong> : 10 étapes du tour de jeu</li>
+                </ul>
+            </div>
+
+            <div class="sequence-descriptions">
+                <h4>📝 Séquence de Jeu (1-10)</h4>
+                <div class="sequence-item">
+                    <span class="sequence-number">1.</span> Event Card
+                </div>
+                <div class="sequence-item">
+                    <span class="sequence-number">2.</span> Eligible Faction
+                </div>
+                <div class="sequence-item">
+                    <span class="sequence-number">3.</span> Pass
+                </div>
+                <div class="sequence-item">
+                    <span class="sequence-number">4.</span> 1st Faction Command Only (no special activity)
+                </div>
+                <div class="sequence-item">
+                    <span class="sequence-number">5.</span> 2nd Faction Limited Command
+                </div>
+                <div class="sequence-item">
+                    <span class="sequence-number">6.</span> 1st Faction Command + Special Activity
+                </div>
+                <div class="sequence-item">
+                    <span class="sequence-number">7.</span> 2nd Faction Limited Command or Event
+                </div>
+                <div class="sequence-item">
+                    <span class="sequence-number">8.</span> 1st Faction Event
+                </div>
+                <div class="sequence-item">
+                    <span class="sequence-number">9.</span> 2nd Faction Command (may add special activity)
+                </div>
+                <div class="sequence-item">
+                    <span class="sequence-number">10.</span> Ineligible Faction
+                </div>
+            </div>
+
+            <div class="current-selection" id="current-info">
+                <strong>Sélection actuelle:</strong><br>
+                Type: <span id="current-type">⚫ Forces Non Disponibles</span><br>
+                Élément: <span id="current-element">🏴󠁧󠁢󠁥󠁮󠁧󠁿 British</span>
+            </div>
+
+            <div id="zone-details" class="zone-details"></div>
+
+            <div class="progress-section">
+                <h3>📊 Progrès par Catégorie</h3>
+                <div id="progress-container">
+                    <!-- Sera rempli par JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Input file caché -->
+    <input type="file" id="file-input" accept=".json" style="display: none;">
+
+    <script src="gameplay-zones.js"></script>
+</body>
+</html>

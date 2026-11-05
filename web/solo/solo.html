@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liberty or Death — Mode solo (factions non-joueurs)</title>
+<style>
+  :root { --bg:#f3efe6; --panel:#fffdf8; --ink:#2b2520; --line:#d8cfbf; --brit:#b4332c; --pat:#2f5fa8; --fr:#6b5ca5; --ind:#8a6a2f; --accent:#8b2f1f; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background:var(--bg); color:var(--ink); font-size:13px; }
+  header { background:#2b2520; color:#f3efe6; padding:10px 18px; display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
+  header h1 { font-size:18px; margin:0; font-weight:600; }
+  header .totals { display:flex; gap:14px; font-size:13px; flex-wrap:wrap; }
+  header .totals b { color:#ffd27a; }
+  main { display:grid; grid-template-columns: minmax(700px, 1fr) 440px; gap:14px; padding:14px; align-items:start; }
+  section.panel { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:12px; margin-bottom:14px; }
+  section.panel h2 { margin:0 0 8px; font-size:15px; }
+  table.state { border-collapse:collapse; width:100%; font-size:12px; }
+  table.state th, table.state td { border:1px solid var(--line); padding:2px 3px; text-align:center; }
+  table.state th { background:#ebe4d5; font-weight:600; }
+  table.state th.b { background:#f3d6d4; } table.state th.p { background:#d6e1f3; } table.state th.f { background:#e3dff0; } table.state th.i { background:#eadfc8; }
+  table.state td.name { text-align:left; font-weight:600; white-space:nowrap; }
+  table.state td.name small { color:#777; font-weight:normal; }
+  table.state input[type=number] { width:34px; padding:1px; font-size:12px; text-align:center; border:1px solid #ccc; border-radius:3px; }
+  table.state select { font-size:11px; padding:1px; }
+  table.state tr.city td.name { background:#fff6d8; } table.state tr.reserve td.name { background:#eee9dc; }
+  .ctl { display:inline-block; min-width:28px; padding:0 4px; border-radius:3px; color:#fff; font-size:10px; }
+  .ctl.british { background:var(--brit);} .ctl.rebellion { background:var(--pat);} .ctl.none { background:#aaa; }
+  .boxes { display:grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap:10px; }
+  .box { border:1px solid var(--line); border-radius:6px; padding:6px 8px; background:#fff; }
+  .box h3 { margin:0 0 4px; font-size:12px; color:#555; text-transform:uppercase; letter-spacing:.03em; }
+  .box label { display:inline-flex; align-items:center; gap:4px; margin:2px 8px 2px 0; font-size:12px; }
+  .box input[type=number] { width:46px; padding:1px; font-size:12px; text-align:center; }
+  .box select { font-size:12px; }
+  button { background:var(--accent); color:#fff; border:none; border-radius:5px; padding:7px 12px; font-size:13px; cursor:pointer; font-weight:600; }
+  button.sec { background:#6a6259; } button.ok { background:#2d7a3a; } button:disabled { opacity:.5; cursor:default; }
+  .row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:6px 0; }
+  #log { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:12px; background:#1f1b18; color:#e9e2d6; padding:10px; border-radius:6px; height:560px; overflow:auto; white-space:pre-wrap; }
+  #log .head { color:#ffd27a; font-weight:700; } #log .act { color:#9ad7ff; } #log .dice { color:#c3b1ff; } #log .warn { color:#ff9c7a; } #log .info { color:#e9e2d6; }
+  #pause { background:#fff4e0; border:2px solid #e2a84b; border-radius:8px; padding:10px; margin-bottom:10px; display:none; }
+  #pause .msg { font-weight:600; margin-bottom:8px; }
+  .cardpreview { display:flex; gap:10px; align-items:flex-start; }
+  .cardpreview img { width:150px; border-radius:6px; border:1px solid var(--line); }
+  .cardtext { font-size:12px; } .cardtext .lbl { font-style:italic; color:#555; } .cardtext .shaded { background:#e4e0d8; padding:4px; border-radius:4px; margin-top:4px; }
+  .pill { display:inline-block; padding:1px 6px; border-radius:10px; font-size:11px; color:#fff; margin-right:3px; }
+  .pill.british{background:var(--brit)} .pill.patriots{background:var(--pat)} .pill.french{background:var(--fr)} .pill.indians{background:var(--ind)}
+  .warnbox { background:#ffe3e0; border:1px solid #e09a94; border-radius:6px; padding:6px 8px; font-size:12px; margin:6px 0; display:none; }
+  details summary { cursor:pointer; font-weight:600; }
+  .small { font-size:11px; color:#666; }
+  @media (max-width: 1150px) { main { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Liberty or Death — mode solo</h1>
+  <div class="totals" id="totals"></div>
+</header>
+<main>
+<div>
+  <section class="panel">
+    <h2>1. Partie</h2>
+    <div class="row">
+      <label>Scénario de départ
+        <select id="scenario">
+          <option value="people_numerous_armed">A People Numerous and Armed (1775-1780)</option>
+          <option value="british_return_ny">British Return to New York (1776-1779)</option>
+          <option value="southern_campaign">The Southern Campaign (1778-1780)</option>
+          <option value="empty">Plateau vide (saisie complète)</option>
+        </select></label>
+      <button id="btnNew">Nouvelle partie</button>
+      <button class="sec" id="btnExport">Exporter JSON</button>
+      <label class="sec"><input type="file" id="fileImport" style="display:none"><button class="sec" onclick="document.getElementById('fileImport').click()">Importer JSON / export du plateau</button></label>
+      <button class="sec" id="btnUndo">Annuler la dernière carte</button>
+    </div>
+    <div class="row" id="players"></div>
+    <div class="row small">Graine des dés : <input type="number" id="seed" style="width:80px"> (changer la graine change les tirages ; tous les jets sont affichés dans le journal)</div>
+  </section>
+
+  <section class="panel">
+    <h2>2. État du jeu <span class="small">(modifiable à tout moment — c'est ici que le joueur reporte ce qu'il a fait sur le vrai plateau)</span></h2>
+    <div class="warnbox" id="poolwarn"></div>
+    <div style="overflow-x:auto"><table class="state" id="stateTable"></table></div>
+    <div class="small" style="margin-top:6px">U = Underground, A = Active. Blocus : nombre de marqueurs Blockade sur la Ville. Le contrôle est calculé automatiquement (1.7).</div>
+    <div class="boxes" id="boxes" style="margin-top:10px"></div>
+  </section>
+</div>
+
+<div>
+  <section class="panel">
+    <h2>3. Carte en cours</h2>
+    <div class="row">
+      <label>Carte jouée <input list="cardlist" id="cardIn" placeholder="n° ou titre" style="width:260px"></label>
+      <label>Carte suivante (visible) <input list="cardlist" id="nextIn" placeholder="n° ou titre" style="width:200px"></label>
+      <datalist id="cardlist"></datalist>
+    </div>
+    <div class="cardpreview" id="cardpreview"></div>
+    <div class="row">
+      <button id="btnPlay" class="ok">Jouer cette carte</button>
+      <span class="small" id="status"></span>
+    </div>
+    <div id="pause">
+      <div class="msg" id="pauseMsg"></div>
+      <div class="row" id="pauseOpts"></div>
+    </div>
+  </section>
+  <section class="panel">
+    <h2>4. Journal</h2>
+    <div class="row"><button class="sec" id="btnClearLog">Effacer</button><label><input type="checkbox" id="showDice" checked> afficher les dés</label></div>
+    <div id="log"></div>
+  </section>
+  <section class="panel">
+    <details><summary>Notes sur les règles et les hypothèses du programme</summary>
+      <ul class="small">
+        <li>Les factions ordinateur suivent les sections 8.4 à 8.7 du livret de règles (flowcharts). Les égalités sont tranchées au hasard (8.2, option « dé à chances égales »).</li>
+        <li>La feuille « Non-player Events » (instructions spéciales pour les cartes avec symbole mousquet) n'est pas dans le PDF : pour ces cartes, la décision suit uniquement les conditions générales. Les cartes à symbole sabre sont ignorées (8.1).</li>
+        <li>Les cartes Brilliant Stroke (105-108) et la Treaty of Alliance (109) ne sont pas dans les images : leurs conditions de jeu sont codées (8.1, 8.3.7, 8.4.11…), leur texte doit être appliqué à la main sur le plateau.</li>
+        <li>Phase Support du Winter Quarters : les règles ne précisent pas combien un ordinateur dépense. Hypothèse : il dépense tout sauf 3 Ressources (modifiable : variable <code>wqReserve</code>).</li>
+        <li>Quand un événement joué par un ordinateur donne une décision au joueur humain (Commande gratuite, choix de pièces…), le programme décide selon les priorités non-joueur et le signale : le joueur peut corriger l'état avant de continuer.</li>
+        <li>Les adjacences de la carte sont dans <code>engine.js</code> (table SPACES) — à vérifier contre le plateau physique en cas de doute.</li>
+      </ul>
+    </details>
+  </section>
+</div>
+</main>
+
+<script src="engine.js"></script>
+<script src="commands.js"></script>
+<script src="bots.js"></script>
+<script src="events.js"></script>
+<script src="wq.js"></script>
+<script src="cards.js"></script>
+<script>
+(function () {
+  const { FACTIONS, FR, SPACE_NAMES, CARDS, WI } = LOD;
+  const $ = id => document.getElementById(id);
+  let g = null, gen = null, history = [];
+  const LEVELS = [[2, 'Support Actif'], [1, 'Support Passif'], [0, 'Neutre'], [-1, 'Opposition Passive'], [-2, 'Opposition Active']];
+
+  // ------------------------------------------------------------ partie
+  function newGame(scen) {
+    const st = scen === 'empty' ? LOD.newState() : LOD.scenario(scen);
+    st.seed = +$('seed').value || Math.floor(Math.random() * 1e9); $('seed').value = st.seed;
+    for (const f of FACTIONS) st.players[f] = document.querySelector(`input[name=pl_${f}]:checked`).value;
+    g = new LOD.Game(st, {}); gen = null; history = [];
+    $('log').innerHTML = ''; hidePause();
+    say('Nouvelle partie : ' + $('scenario').selectedOptions[0].textContent, 'head');
+    renderAll(); save();
+  }
+  function say(msg, level) { g.log.push({ msg, depth: 0, level: level || 'info' }); renderLog(); }
+
+  // ------------------------------------------------------------ rendu
+  function renderAll() { renderTable(); renderBoxes(); renderTotals(); renderPlayers(); renderLog(); checkPools(); }
+  function num(val, onchange, title) { const i = document.createElement('input'); i.type = 'number'; i.min = 0; i.value = val; if (title) i.title = title; i.addEventListener('change', () => { onchange(Math.max(0, parseInt(i.value) || 0)); renderTotals(); checkPools(); renderTableDerived(); }); return i; }
+  function renderTable() {
+    const t = $('stateTable'); t.innerHTML = '';
+    const hdr = document.createElement('tr');
+    hdr.innerHTML = '<th>Espace</th><th>Pop</th><th>Ctrl</th><th>Support / Opposition</th><th class="b">Reg</th><th class="b">Tor</th><th class="b">Fort</th><th class="p">Cont</th><th class="p">Mil U</th><th class="p">Mil A</th><th class="p">Fort</th><th class="f">Reg fr.</th><th class="i">WP U</th><th class="i">WP A</th><th class="i">Vill.</th><th>Raid</th><th>Prop.</th><th>Blocus</th><th>Leaders</th>';
+    t.appendChild(hdr);
+    for (const n of SPACE_NAMES) {
+      const s = g.sp(n); const info = LOD.SPACES[n]; const tr = document.createElement('tr'); tr.className = info.type; tr.dataset.space = n;
+      const td = (el) => { const d = document.createElement('td'); if (typeof el === 'string') d.innerHTML = el; else d.appendChild(el); tr.appendChild(d); return d; };
+      td(`${n} <small>${{ city: 'Ville', colony: 'Colonie', reserve: 'Réserve', wi: 'Antilles' }[info.type]}</small>`).className = 'name';
+      td(String(info.pop));
+      td('').className = 'ctl-cell';
+      if (info.pop > 0) { const sel = document.createElement('select'); for (const [v, l] of LEVELS) { const o = document.createElement('option'); o.value = v; o.textContent = l; if (v === s.sup) o.selected = true; sel.appendChild(o); } sel.addEventListener('change', () => { s.sup = +sel.value; renderTotals(); }); td(sel); } else td('<span class="small">toujours Neutre</span>');
+      td(num(s.b.reg, v => s.b.reg = v)); td(num(s.b.tor, v => s.b.tor = v)); td(num(s.b.fort, v => s.b.fort = v));
+      td(num(s.p.cont, v => s.p.cont = v)); td(num(s.p.milU, v => s.p.milU = v)); td(num(s.p.milA, v => s.p.milA = v)); td(num(s.p.fort, v => s.p.fort = v));
+      td(num(s.f.reg, v => s.f.reg = v));
+      td(num(s.i.wpU, v => s.i.wpU = v)); td(num(s.i.wpA, v => s.i.wpA = v)); td(num(s.i.vil, v => s.i.vil = v));
+      td(info.type === 'wi' ? '' : num(s.raid, v => s.raid = v)); td(info.type === 'wi' ? '' : num(s.prop, v => s.prop = v));
+      td(info.type === 'city' ? num(s.blk, v => { s.blk = v; g.state.fni = LOD.CITIES.reduce((a, c) => a + g.sp(c).blk, 0); renderBoxes(); }) : '');
+      td('').className = 'leaders-cell';
+      t.appendChild(tr);
+    }
+    renderTableDerived();
+  }
+  function renderTableDerived() {
+    for (const tr of $('stateTable').querySelectorAll('tr[data-space]')) {
+      const n = tr.dataset.space; const c = g.control(n);
+      tr.querySelector('.ctl-cell').innerHTML = `<span class="ctl ${c || 'none'}">${c === 'british' ? 'Brit.' : c === 'rebellion' ? 'Réb.' : '—'}</span>`;
+      tr.querySelector('.leaders-cell').innerHTML = FACTIONS.filter(f => g.state.leaders[f].loc === n).map(f => `<span class="pill ${f}">${g.state.leaders[f].name}</span>`).join('');
+    }
+  }
+  function renderBoxes() {
+    const st = g.state; const B = $('boxes'); B.innerHTML = '';
+    const box = (title, items) => { const d = document.createElement('div'); d.className = 'box'; d.innerHTML = `<h3>${title}</h3>`; for (const it of items) { const l = document.createElement('label'); l.append(it[0] + ' '); l.appendChild(it[1]); d.appendChild(l); } B.appendChild(d); };
+    const N = (obj, key, extra) => num(obj[key], v => { obj[key] = v; if (extra) extra(); });
+    box('Ressources', FACTIONS.map(f => [FR[f], N(st.resources, f)]));
+    box('Pistes', [['Pertes brit. cumulées (CBC)', N(st, 'cbc')], ['Pertes rébellion cumulées (CRC)', N(st, 'crc')], ['FNI (calculé des Blocus)', (() => { const s = document.createElement('span'); s.textContent = st.fni; return s; })()], ['Squadrons aux Antilles', N(st, 'wiSquadrons')]]);
+    box('Available — Britanniques', [['Regulars', N(st.available.british, 'reg')], ['Tories', N(st.available.british, 'tor')], ['Forts', N(st.available.british, 'fort')]]);
+    box('Available — Patriotes', [['Continentals', N(st.available.patriots, 'cont')], ['Milices', N(st.available.patriots, 'mil')], ['Forts', N(st.available.patriots, 'fort')]]);
+    box('Available — Français / Indiens', [['Regulars fr.', N(st.available.french, 'reg')], ['War Parties', N(st.available.indians, 'wp')], ['Villages', N(st.available.indians, 'vil')]]);
+    box('Unavailable', [['Regulars brit.', N(st.unavailable.british, 'reg')], ['Tories', N(st.unavailable.british, 'tor')], ['Regulars fr.', N(st.unavailable.french, 'reg')], ['Squadrons fr.', N(st.unavailable.french, 'sq')]]);
+    box('Casualties', [['Regulars brit.', N(st.casualties.british, 'reg')], ['Tories', N(st.casualties.british, 'tor')], ['Continentals', N(st.casualties.patriots, 'cont')], ['Regulars fr.', N(st.casualties.french, 'reg')]]);
+    // leaders
+    const ld = []; for (const f of FACTIONS) { const L = st.leaders[f]; const selN = document.createElement('select'); for (const nm of LOD.LEADER_SEQ[f]) { const o = document.createElement('option'); o.value = nm; o.textContent = nm; if (nm === L.name) o.selected = true; selN.appendChild(o); } selN.addEventListener('change', () => { L.name = selN.value; renderTableDerived(); });
+      const selL = document.createElement('select'); const o0 = document.createElement('option'); o0.value = ''; o0.textContent = 'Available'; selL.appendChild(o0); for (const n of SPACE_NAMES) { const o = document.createElement('option'); o.value = n; o.textContent = n; if (L.loc === n) o.selected = true; selL.appendChild(o); } selL.addEventListener('change', () => { L.loc = selL.value || null; renderTableDerived(); });
+      const w = document.createElement('span'); w.appendChild(selN); w.append(' en '); w.appendChild(selL); ld.push([FR[f], w]); }
+    box('Leaders', ld);
+    // flags
+    const chk = (val, fn) => { const c = document.createElement('input'); c.type = 'checkbox'; c.checked = val; c.addEventListener('change', () => fn(c.checked)); return c; };
+    box('Éligibilité (cylindres)', FACTIONS.map(f => [FR[f] + ' éligible', chk(st.eligible[f], v => st.eligible[f] = v)]));
+    box('Brilliant Stroke en main', FACTIONS.map(f => [FR[f], chk(st.bs[f], v => st.bs[f] = v)]).concat([['Treaty of Alliance jouée', chk(st.toa, v => { st.toa = v; renderTotals(); })]]));
+    box('Winter Quarters', [['Rounds effectués', N(st, 'wqDone')], ['Rounds au total (dernier = fin)', N(st, 'wqTotal')]]);
+  }
+  function renderTotals() {
+    const st = g.state; const S = g.totalSupport(), O = g.totalOpposition(); const m = g.margins();
+    $('totals').innerHTML = `<span>Support <b>${S}</b></span><span>Opposition <b>${O}</b></span><span>CBC <b>${st.cbc}</b></span><span>CRC <b>${st.crc}</b></span><span>Forts patriotes <b>${g.forts('patriots')}</b></span><span>Villages <b>${g.villages()}</b></span><span>FNI <b>${st.fni}</b></span><span>Prép. fr. <b>${g.frenchPreparations()}</b></span>` +
+      `<span title="marge totale (7.3)">Marges : B ${m.british.total} · P ${m.patriots.total} · F ${st.toa ? m.french.total : '–'} · I ${m.indians.total}</span>`;
+    renderTableDerived();
+  }
+  function renderPlayers() {
+    const d = $('players'); if (d.dataset.done) { for (const f of FACTIONS) { const r = d.querySelector(`input[name=pl_${f}][value=${g.state.players[f]}]`); if (r) r.checked = true; } return; }
+    d.dataset.done = '1'; d.innerHTML = '<b>Qui joue quoi ?</b> ';
+    for (const f of FACTIONS) { const span = document.createElement('span'); span.innerHTML = `<span class="pill ${f}">${FR[f]}</span> <label><input type="radio" name="pl_${f}" value="human"> joueur</label> <label><input type="radio" name="pl_${f}" value="bot" checked> ordinateur</label> &nbsp;`; d.appendChild(span); }
+    d.querySelectorAll('input[type=radio]').forEach(r => r.addEventListener('change', () => { if (g) { for (const f of FACTIONS) g.state.players[f] = document.querySelector(`input[name=pl_${f}]:checked`).value; save(); } }));
+  }
+  function renderLog() {
+    const L = $('log'); const showDice = $('showDice').checked;
+    L.innerHTML = g.log.filter(l => showDice || l.level !== 'dice').map(l => `<div class="${l.level}" style="padding-left:${l.depth * 14}px">${esc(l.msg)}</div>`).join('');
+    L.scrollTop = L.scrollHeight;
+  }
+  function esc(s) { return String(s).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[c]); }
+  function checkPools() { const w = LOD.checkPools(g); const box = $('poolwarn'); if (w.length) { box.style.display = 'block'; box.innerHTML = '<b>Totaux de pièces incohérents (page 35 des règles)</b> : ' + w.join(' ; ') + '. Vérifiez les cases Available / Unavailable / Casualties.'; } else box.style.display = 'none'; }
+
+  // ------------------------------------------------------------ cartes
+  function fillCardList() { const dl = $('cardlist'); for (const id in CARDS) { const o = document.createElement('option'); o.value = `${id} — ${CARDS[id].title}`; dl.appendChild(o); } }
+  function parseCard(v) { const m = String(v).match(/^\s*(\d+)/); if (m && CARDS[+m[1]]) return CARDS[+m[1]]; const t = String(v).trim().toLowerCase(); for (const id in CARDS) if (CARDS[id].title.toLowerCase() === t) return CARDS[id]; return null; }
+  function renderCard() {
+    const c = parseCard($('cardIn').value); const d = $('cardpreview'); if (!c) { d.innerHTML = '<span class="small">Choisissez la carte jouée (numéro).</span>'; return; }
+    const img = `../../Images/Cartes/${encodeURIComponent(c.file)}`;
+    let txt = `<div class="cardtext"><b>#${c.id} ${esc(c.title)}</b> ${c.period ? '(' + c.period + ')' : ''}<br>`;
+    if (c.order) txt += c.order.map(f => `<span class="pill ${f}">${FR[f]}${{ sword: ' ⚔', musket: ' 🔫', none: '' }[c.icons[f]]}</span>`).join('') + '<br>';
+    txt += `<div><span class="lbl">${esc(c.unshaded_label || '')}</span> ${esc(c.unshaded || '')}</div>`;
+    if (c.shaded) txt += `<div class="shaded"><span class="lbl">${esc(c.shaded_label || '')}</span> ${esc(c.shaded)}</div>`;
+    txt += '</div>';
+    d.innerHTML = `<img src="${img}" onerror="this.style.display='none'">${txt}`;
+  }
+
+  // ------------------------------------------------------------ déroulement
+  function playCard() {
+    const card = parseCard($('cardIn').value); if (!card) { alert('Indiquez la carte jouée.'); return; }
+    const next = parseCard($('nextIn').value);
+    if (gen) { alert('Une carte est déjà en cours : répondez à la question en attente.'); return; }
+    history.push(g.snapshot()); if (history.length > 20) history.shift();
+    g.rng = LOD.makeRng((+$('seed').value || 1) + 7919 * (g.log.length + 1));
+    gen = LOD.Turn.run(g, card, next);
+    advance(undefined);
+  }
+  function advance(answer) {
+    let r;
+    try { r = gen.next(answer); } catch (e) { say('ERREUR : ' + e.message, 'warn'); console.error(e); gen = null; renderAll(); return; }
+    renderAll();
+    if (r.done) {
+      gen = null; hidePause();
+      const v = r.value || {};
+      if (v.gameOver) { showPause(v.final ? 'Fin de partie (dernier Winter Quarters) — voir les marges dans le journal et en haut de page.' : 'Fin de partie : une faction remplit ses deux conditions de victoire.', []); }
+      else $('status').textContent = 'Carte terminée. Choisissez la carte suivante.';
+      save(); return;
+    }
+    const q = r.value;
+    const labels = { event: 'Événement', command: 'Commande seule', commandSA: 'Commande + Activité spéciale', limited: 'Commande limitée', pass: 'Passer', bs: 'Brilliant Stroke (annule la carte)', oui: 'Oui', non: 'Non' };
+    const opts = (q.options || []).map(o => ({ label: labels[o] || o, value: o }));
+    showPause(`${q.msg}`, opts, q);
+    save();
+  }
+  function showPause(msg, opts, q) {
+    const P = $('pause'); P.style.display = 'block'; $('pauseMsg').textContent = msg; const O = $('pauseOpts'); O.innerHTML = '';
+    if (q && q.phase === 'turn') { const auto = document.createElement('label'); auto.innerHTML = '<input type="checkbox" id="autoEvent"> si Événement : l\'appliquer automatiquement (choix selon les priorités non-joueur)'; O.appendChild(auto); O.appendChild(document.createElement('br')); }
+    if (!opts.length) { const b = document.createElement('button'); b.className = 'ok'; b.textContent = 'Continuer'; b.onclick = () => { hidePause(); advance({ choice: 'continue' }); }; O.appendChild(b); }
+    for (const o of opts) { const b = document.createElement('button'); b.textContent = o.label; b.className = o.value === 'pass' || o.value === 'non' ? 'sec' : 'ok'; b.onclick = () => { const a = { choice: o.value }; const ae = $('autoEvent'); if (ae) a.autoEvent = ae.checked; hidePause(); advance(a); }; O.appendChild(b); }
+    if (!gen) { const b = document.createElement('button'); b.className = 'sec'; b.textContent = 'OK'; b.onclick = hidePause; O.appendChild(b); }
+    $('status').textContent = 'En attente du joueur…';
+  }
+  function hidePause() { $('pause').style.display = 'none'; $('status').textContent = ''; }
+
+  // ------------------------------------------------------------ sauvegarde / import
+  function save() { try { localStorage.setItem('lod_solo_state', JSON.stringify({ state: g.state, log: g.log.slice(-400), card: $('cardIn').value, next: $('nextIn').value })); } catch (e) {} }
+  function load() { try { const d = JSON.parse(localStorage.getItem('lod_solo_state')); if (!d) return false; g = new LOD.Game(d.state, {}); g.log = d.log || []; $('cardIn').value = d.card || ''; $('nextIn').value = d.next || ''; $('seed').value = d.state.seed || 1; return true; } catch (e) { return false; } }
+  function exportJson() { const blob = new Blob([JSON.stringify({ lodSolo: 1, state: g.state }, null, 1)], { type: 'application/json' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'liberty-or-death-etat.json'; a.click(); }
+  function importFile(file) {
+    const fr = new FileReader(); fr.onload = () => { try { const d = JSON.parse(fr.result); if (d.lodSolo) { g = new LOD.Game(d.state, {}); say('État importé', 'head'); } else if (d.breakdown || d.militaryUnits) { g = new LOD.Game(importGameBoard(d), {}); say('État importé depuis l\'export du plateau (vérifiez Available / Unavailable / Casualties, les Leaders et l\'éligibilité)', 'warn'); } else throw new Error('format inconnu'); gen = null; renderAll(); save(); } catch (e) { alert('Import impossible : ' + e.message); } };
+    fr.readAsText(file);
+  }
+  // Convertit l'export de game-board.js (exportGameState) vers l'état du moteur
+  function importGameBoard(d) {
+    const st = LOD.newState(); const b = d.breakdown || {}; const N = LOD.normSpace;
+    const each = (obj, fn) => { if (obj) for (const t in obj) { const n = N(t); if (st.spaces[n]) fn(st.spaces[n], obj[t], n); } };
+    each(b.britishTroops && b.britishTroops.regulars.placed, (s, v) => s.b.reg = +v || 0);
+    each(b.britishTroops && b.britishTroops.tories.placed, (s, v) => s.b.tor = +v || 0);
+    each(b.fortSystems && b.fortSystems.british.placed, (s, v) => s.b.fort = +v || 0);
+    each(b.fortSystems && b.fortSystems.patriots.placed, (s, v) => s.p.fort = +v || 0);
+    each(b.patriotTroops && b.patriotTroops.continentals.placed, (s, v) => s.p.cont = +v || 0);
+    each(b.patriotTroops && b.patriotTroops.militia.placed, (s, v) => { s.p.milU = +(v.normal || 0); s.p.milA = +(v.active || 0); });
+    each(b.indianWarParties && b.indianWarParties.placed, (s, v) => { s.i.wpU = +(v.normal || 0); s.i.wpA = +(v.active || 0); });
+    each(b.indianVillages && b.indianVillages.placed, (s, v) => s.i.vil = +v || 0);
+    each(b.frenchRegulars && b.frenchRegulars.placed, (s, v) => s.f.reg = +v || 0);
+    each(b.frenchShips && b.frenchShips.blockading, (s, v) => s.blk = +v || 0);
+    each(b.raidPropagandaMarkers && b.raidPropagandaMarkers.raid.placed, (s, v) => s.raid = +v || 0);
+    each(b.raidPropagandaMarkers && b.raidPropagandaMarkers.propaganda.placed, (s, v) => s.prop = +v || 0);
+    each(b.territorySupport, (s, v, n) => { const map = { active_support: 2, passive_support: 1, neutral: 0, passive_opposition: -1, active_opposition: -2, support_active: 2, support_passive: 1, opposition_passive: -1, opposition_active: -2 }; const key = typeof v === 'string' ? v : (v && (v.image || v.name)); if (key in map && LOD.SPACES[n].pop > 0) s.sup = map[key]; });
+    each(b.leaders, (s, v, n) => { for (const name of v || []) for (const f of FACTIONS) if (LOD.LEADER_SEQ[f].includes(name)) st.leaders[f] = { name, loc: n }; });
+    const sp = b.scorePositions || {}; if (sp.british) { st.resources.british = +sp.british.resources || 0; st.cbc = +sp.british.casualties || 0; } if (sp.patriots) { st.resources.patriots = +sp.patriots.resources || 0; st.crc = +sp.patriots.casualties || 0; } if (sp.french) st.resources.french = +sp.french.resources || 0; if (sp.indians) st.resources.indians = +sp.indians.resources || 0;
+    st.fni = LOD.CITIES.reduce((a, c) => a + st.spaces[c].blk, 0);
+    const tmp = new LOD.Game(st, {});
+    st.available.british.reg = 25 - tmp.countOnMap('british', 'reg'); st.available.british.tor = 25 - tmp.countOnMap('british', 'tor'); st.available.british.fort = 6 - tmp.countOnMap('british', 'fort');
+    st.available.patriots.cont = 20 - tmp.countOnMap('patriots', 'cont'); st.available.patriots.mil = 15 - tmp.countOnMap('patriots', 'mil'); st.available.patriots.fort = 6 - tmp.countOnMap('patriots', 'fort');
+    st.available.french.reg = 15 - tmp.countOnMap('french', 'reg'); st.wiSquadrons = 3 - st.fni; st.available.indians.wp = 15 - tmp.countOnMap('indians', 'wp'); st.available.indians.vil = 12 - tmp.countOnMap('indians', 'vil');
+    st.toa = st.fni > 0 || tmp.countOnMap('french', 'reg') > 0;
+    return st;
+  }
+
+  // ------------------------------------------------------------ init
+  fillCardList(); renderPlayers();
+  $('btnNew').onclick = () => { if (!g || confirm('Commencer une nouvelle partie ? L\'état actuel sera remplacé.')) newGame($('scenario').value); };
+  $('btnPlay').onclick = playCard;
+  $('btnExport').onclick = exportJson;
+  $('fileImport').addEventListener('change', e => { if (e.target.files[0]) importFile(e.target.files[0]); e.target.value = ''; });
+  $('btnUndo').onclick = () => { if (!history.length) { alert('Rien à annuler.'); return; } g.restore(history.pop()); gen = null; hidePause(); say('Dernière carte annulée : état restauré', 'warn'); renderAll(); save(); };
+  $('btnClearLog').onclick = () => { g.log = []; renderLog(); };
+  $('showDice').onchange = renderLog;
+  $('cardIn').addEventListener('input', renderCard);
+  if (!load()) { $('seed').value = Math.floor(Math.random() * 1e9); newGame('people_numerous_armed'); } else renderAll();
+  renderCard();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liberty and Death - Configuration des Cartes</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            min-width: 1200px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #6f42c1 0%, #007bff 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .controls {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .control-group label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        input, select, button {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            border: 2px solid #007bff;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        button:hover {
+            background: #0056b3;
+            border-color: #0056b3;
+        }
+
+        button.winter {
+            background: #17a2b8;
+            border-color: #17a2b8;
+        }
+
+        button.winter:hover {
+            background: #138496;
+            border-color: #138496;
+        }
+
+        button.danger {
+            background: #dc3545;
+            border-color: #dc3545;
+        }
+
+        button.danger:hover {
+            background: #c82333;
+            border-color: #c82333;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 300px 400px;
+            gap: 20px;
+        }
+
+        .card-editor {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .card-type-selector {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .type-btn {
+            padding: 10px 20px;
+            border: 2px solid;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .type-btn.normal {
+            border-color: #007bff;
+            color: #007bff;
+        }
+        .type-btn.normal.active {
+            background: #007bff;
+            color: white;
+        }
+
+        .type-btn.winter {
+            border-color: #17a2b8;
+            color: #17a2b8;
+        }
+        .type-btn.winter.active {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .turn-editor {
+            display: none;
+        }
+
+        .turn-editor.active {
+            display: block;
+        }
+
+        .turn-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .turn-slot {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            position: relative;
+        }
+
+        .turn-slot h4 {
+            margin: 0 0 10px 0;
+            color: #495057;
+            font-size: 14px;
+        }
+
+        .faction-select {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .sabre-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+        }
+
+        .sabre-icon {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .winter-message {
+            display: none;
+            text-align: center;
+            padding: 40px;
+            background: #e7f3ff;
+            border-radius: 8px;
+            color: #0066cc;
+            font-size: 18px;
+        }
+
+        .winter-message.active {
+            display: block;
+        }
+
+        .sidebar {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+
+        .card-list {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+        }
+
+        .card-item {
+            padding: 10px;
+            border-bottom: 1px solid #dee2e6;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .card-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .card-item.selected {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .card-item:last-child {
+            border-bottom: none;
+        }
+
+        .card-status {
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .status-configured {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .status-unconfigured {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .status-winter {
+            color: #17a2b8;
+            font-weight: bold;
+        }
+
+        .instructions {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #007bff;
+        }
+
+        .faction-colors {
+            font-size: 12px;
+            margin-top: 20px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+
+        .faction-colors div {
+            margin: 2px 0;
+        }
+
+        .color-patriots { color: #007bff; font-weight: bold; }
+        .color-british { color: #dc3545; font-weight: bold; }
+        .color-french { color: #6f42c1; font-weight: bold; }
+        .color-indians { color: #fd7e14; font-weight: bold; }
+
+        .card-preview {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+
+        .card-image-container {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .card-image {
+            max-width: 100%;
+            max-height: 400px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+
+        .card-image:hover {
+            transform: scale(1.02);
+        }
+
+        .card-image.placeholder {
+            width: 200px;
+            height: 280px;
+            background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+            border: 2px dashed #dee2e6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            font-size: 48px;
+            margin: 0 auto;
+        }
+
+        .card-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .card-info h4 {
+            margin: 0 0 10px 0;
+            color: #495057;
+            font-size: 16px;
+        }
+
+        .card-info p {
+            margin: 5px 0;
+            color: #6c757d;
+            font-size: 14px;
+        }
+
+        .no-card-selected {
+            text-align: center;
+            color: #6c757d;
+            font-style: italic;
+            padding: 40px 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎴 Liberty and Death - Configuration des Cartes</h1>
+        <p>Configurez l'ordre des tours et les symboles sabre pour chaque carte</p>
+    </div>
+
+    <div class="controls">
+        <div class="control-group">
+            <label for="card-search">Rechercher carte:</label>
+            <input type="text" id="card-search" placeholder="Nom de la carte..." autocomplete="off">
+        </div>
+        
+        <div class="control-group">
+            <button id="save-config">💾 Sauvegarder Configuration</button>
+            <button id="load-config">📁 Charger Configuration</button>
+            <button id="export-config">📋 Exporter JSON</button>
+        </div>
+
+        <div class="control-group">
+            <button id="clear-card" class="danger">🗑️ Effacer Carte</button>
+            <button id="mark-winter" class="winter">❄️ Marquer comme Winter</button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="card-editor">
+            <div class="instructions">
+                <h3>📋 Instructions</h3>
+                <ul>
+                    <li><strong>Sélectionnez une carte</strong> dans la liste de droite</li>
+                    <li><strong>Choisissez le type</strong> : Normale ou Winter</li>
+                    <li><strong>Pour les cartes normales</strong> : configurez les 4 tours de civilisation</li>
+                    <li><strong>Cochez "Sabre"</strong> si le tour a un symbole sabre</li>
+                    <li><strong>Cochez "Fusil"</strong> si le tour a un symbole fusil</li>
+                    <li><strong>Cartes Winter</strong> : pas de configuration de tours</li>
+                </ul>
+            </div>
+
+            <div class="card-type-selector">
+                <div class="type-btn normal active" data-type="normal">🎯 Carte Normale</div>
+                <div class="type-btn winter" data-type="winter">❄️ Carte Winter</div>
+            </div>
+
+            <div class="turn-editor active" id="normal-editor">
+                <h3>Configuration des Tours de Civilisation</h3>
+                <div class="turn-grid">
+                    <div class="turn-slot">
+                        <h4>Tour 1</h4>
+                        <select class="faction-select" data-turn="1">
+                            <option value="">-- Choisir faction --</option>
+                            <option value="patriots">🇺🇸 Patriots</option>
+                            <option value="british">🏴󠁧󠁢󠁥󠁮󠁧󠁿 British</option>
+                            <option value="french">🇫🇷 French</option>
+                            <option value="indians">🏕️ Indians</option>
+                        </select>
+                        <div class="sabre-checkbox">
+                            <input type="checkbox" id="sabre-1" data-turn="1">
+                            <label for="sabre-1"><span class="sabre-icon">⚔️</span> Sabre</label>
+                        </div>
+                        <div class="sabre-checkbox">
+                            <input type="checkbox" id="rifle-1" data-turn="1">
+                            <label for="rifle-1"><span class="sabre-icon">🔫</span> Fusil</label>
+                        </div>
+                    </div>
+
+                    <div class="turn-slot">
+                        <h4>Tour 2</h4>
+                        <select class="faction-select" data-turn="2">
+                            <option value="">-- Choisir faction --</option>
+                            <option value="patriots">🇺🇸 Patriots</option>
+                            <option value="british">🏴󠁧󠁢󠁥󠁮󠁧󠁿 British</option>
+                            <option value="french">🇫🇷 French</option>
+                            <option value="indians">🏕️ Indians</option>
+                        </select>
+                        <div class="sabre-checkbox">
+                            <input type="checkbox" id="sabre-2" data-turn="2">
+                            <label for="sabre-2"><span class="sabre-icon">⚔️</span> Sabre</label>
+                        </div>
+                        <div class="sabre-checkbox">
+                            <input type="checkbox" id="rifle-2" data-turn="2">
+                            <label for="rifle-2"><span class="sabre-icon">🔫</span> Fusil</label>
+                        </div>
+                    </div>
+
+                    <div class="turn-slot">
+                        <h4>Tour 3</h4>
+                        <select class="faction-select" data-turn="3">
+                            <option value="">-- Choisir faction --</option>
+                            <option value="patriots">🇺🇸 Patriots</option>
+                            <option value="british">🏴󠁧󠁢󠁥󠁮󠁧󠁿 British</option>
+                            <option value="french">🇫🇷 French</option>
+                            <option value="indians">🏕️ Indians</option>
+                        </select>
+                        <div class="sabre-checkbox">
+                            <input type="checkbox" id="sabre-3" data-turn="3">
+                            <label for="sabre-3"><span class="sabre-icon">⚔️</span> Sabre</label>
+                        </div>
+                        <div class="sabre-checkbox">
+                            <input type="checkbox" id="rifle-3" data-turn="3">
+                            <label for="rifle-3"><span class="sabre-icon">🔫</span> Fusil</label>
+                        </div>
+                    </div>
+
+                    <div class="turn-slot">
+                        <h4>Tour 4</h4>
+                        <select class="faction-select" data-turn="4">
+                            <option value="">-- Choisir faction --</option>
+                            <option value="patriots">🇺🇸 Patriots</option>
+                            <option value="british">🏴󠁧󠁢󠁥󠁮󠁧󠁿 British</option>
+                            <option value="french">🇫🇷 French</option>
+                            <option value="indians">🏕️ Indians</option>
+                        </select>
+                        <div class="sabre-checkbox">
+                            <input type="checkbox" id="sabre-4" data-turn="4">
+                            <label for="sabre-4"><span class="sabre-icon">⚔️</span> Sabre</label>
+                        </div>
+                        <div class="sabre-checkbox">
+                            <input type="checkbox" id="rifle-4" data-turn="4">
+                            <label for="rifle-4"><span class="sabre-icon">🔫</span> Fusil</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="winter-message" id="winter-editor">
+                <h3>❄️ Carte Winter</h3>
+                <p>Les cartes Winter n'ont pas de tours de civilisation.</p>
+                <p>Cette carte ne nécessite aucune configuration supplémentaire.</p>
+            </div>
+
+            <div class="faction-colors">
+                <strong>Couleurs des factions:</strong>
+                <div class="color-patriots">🇺🇸 Patriots (Bleu)</div>
+                <div class="color-british">🏴󠁧󠁢󠁥󠁮󠁧󠁿 British (Rouge)</div>
+                <div class="color-french">🇫🇷 French (Violet)</div>
+                <div class="color-indians">🏕️ Indians (Orange)</div>
+            </div>
+        </div>
+
+        <div class="card-preview">
+            <h3>🎴 Aperçu de la Carte</h3>
+            <div class="card-image-container">
+                <div class="no-card-selected" id="no-card-message">
+                    Sélectionnez une carte pour voir son aperçu
+                </div>
+                <img class="card-image" id="card-image" style="display: none;" alt="Carte sélectionnée">
+                <div class="card-image placeholder" id="card-placeholder" style="display: none;">
+                    🎴
+                </div>
+            </div>
+            <div class="card-info" id="card-info" style="display: none;">
+                <h4 id="card-name"></h4>
+                <p><strong>ID:</strong> <span id="card-id"></span></p>
+                <p><strong>Description:</strong> <span id="card-description"></span></p>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <h3>🎴 Liste des Cartes</h3>
+            <div class="control-group" style="margin-bottom: 15px;">
+                <input type="text" id="filter-cards" placeholder="Filtrer cartes..." style="width: 100%;">
+            </div>
+            
+            <div class="card-list" id="card-list">
+                <!-- Les cartes seront chargées ici par JavaScript -->
+            </div>
+
+            <div style="margin-top: 20px;">
+                <h4>📊 Statistiques</h4>
+                <div id="stats">
+                    <div>Cartes configurées: <span id="configured-count">0</span></div>
+                    <div>Cartes Winter: <span id="winter-count">0</span></div>
+                    <div>Total: <span id="total-count">0</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Input file caché pour charger la configuration -->
+    <input type="file" id="file-input" accept=".json" style="display: none;">
+
+    <script src="card-config.js"></script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Test API Liberty and Death</title>
+</head>
+<body>
+    <h1>Test de l'intégration API Liberty and Death</h1>
+
+    <button onclick="testAPI()">🧪 Tester l'API</button>
+    <button onclick="testScenario()">📥 Tester le Scénario</button>
+
+    <div id="results" style="margin-top: 20px; padding: 20px; background: #f5f5f5; border-radius: 8px;"></div>
+
+    <script>
+        async function testAPI() {
+            const results = document.getElementById('results');
+            results.innerHTML = '<p>🔄 Test en cours...</p>';
+
+            try {
+                const response = await fetch('http://localhost:3001/api/health');
+                const data = await response.json();
+
+                results.innerHTML = `
+                    <h3>✅ API Health Check</h3>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+            } catch (error) {
+                results.innerHTML = `
+                    <h3>❌ Erreur API</h3>
+                    <p>Erreur: ${error.message}</p>
+                    <p>Vérifiez que le serveur API fonctionne sur le port 3001</p>
+                `;
+            }
+        }
+
+        async function testScenario() {
+            const results = document.getElementById('results');
+            results.innerHTML = '<p>🔄 Chargement du scénario...</p>';
+
+            try {
+                const response = await fetch('http://localhost:3001/api/scenario?id=people_numerous_armed');
+                const data = await response.json();
+
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+
+                results.innerHTML = `
+                    <h3>✅ Scénario chargé avec succès</h3>
+                    <h4>📋 Informations du scénario:</h4>
+                    <p><strong>Nom:</strong> ${data.scenario.name}</p>
+                    <p><strong>Description:</strong> ${data.scenario.description}</p>
+
+                    <h4>🏛️ État global:</h4>
+                    <p><strong>Support:</strong> ${data.global_state.support_track}/50</p>
+                    <p><strong>Opposition:</strong> ${data.global_state.opposition_track}/50</p>
+                    <p><strong>Pertes britanniques:</strong> ${data.global_state.british_casualties}/50</p>
+                    <p><strong>Pertes rebelles:</strong> ${data.global_state.rebellion_casualties}/50</p>
+
+                    <h4>💰 Ressources des factions:</h4>
+                    <ul>
+                        <li><strong>Patriots:</strong> ${data.factions.patriots.resources} (${data.factions.patriots.units_total} unités)</li>
+                        <li><strong>British:</strong> ${data.factions.british.resources} (${data.factions.british.units_total} unités)</li>
+                        <li><strong>French:</strong> ${data.factions.french.resources} (${data.factions.french.units_total} unités)</li>
+                        <li><strong>Indians:</strong> ${data.factions.indians.resources} (${data.factions.indians.units_total} unités)</li>
+                    </ul>
+
+                    <h4>🗺️ Territoires configurés:</h4>
+                    <p><strong>Nombre de territoires:</strong> ${Object.keys(data.territories).length}</p>
+
+                    <details>
+                        <summary>Voir les détails complets (JSON)</summary>
+                        <pre style="font-size: 12px; max-height: 300px; overflow-y: auto;">${JSON.stringify(data, null, 2)}</pre>
+                    </details>
+                `;
+            } catch (error) {
+                results.innerHTML = `
+                    <h3>❌ Erreur lors du chargement du scénario</h3>
+                    <p>Erreur: ${error.message}</p>
+                    <p>Vérifiez que le serveur API fonctionne et que le scénario existe</p>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
