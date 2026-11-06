@@ -46,6 +46,11 @@
   .pill.british{background:var(--brit)} .pill.patriots{background:var(--pat)} .pill.french{background:var(--fr)} .pill.indians{background:var(--ind)}
   .warnbox { background:#ffe3e0; border:1px solid #e09a94; border-radius:6px; padding:6px 8px; font-size:12px; margin:6px 0; display:none; }
   details summary { cursor:pointer; font-weight:600; }
+  #boardwrap { position:relative; overflow:auto; max-height:80vh; border:1px solid var(--line); border-radius:6px; background:#ddd; }
+  #board { display:block; cursor:pointer; }
+  .legend { display:flex; gap:12px; flex-wrap:wrap; font-size:11px; margin-top:6px; }
+  .legend span { display:inline-flex; align-items:center; gap:4px; }
+  .sw { display:inline-block; width:12px; height:12px; border:1px solid #333; }
   .small { font-size:11px; color:#666; }
   @media (max-width: 1150px) { main { grid-template-columns: 1fr; } }
 </style>
@@ -77,7 +82,18 @@
   </section>
 
   <section class="panel">
-    <h2>2. État du jeu <span class="small">(modifiable à tout moment — c'est ici que le joueur reporte ce qu'il a fait sur le vrai plateau)</span></h2>
+    <h2>2. Plateau <span class="small">(mis à jour après chaque action ; les espaces modifiés par la dernière étape sont encadrés en jaune ; cliquer sur un espace va à sa ligne du tableau)</span></h2>
+    <div class="row"><label>Zoom <input type="range" id="zoom" min="30" max="100" value="55"></label> <label><input type="checkbox" id="showBoard" checked> afficher le plateau</label></div>
+    <div id="boardwrap"><canvas id="board"></canvas></div>
+    <div class="legend">
+      <span><i class="sw" style="background:#c8322b"></i> Regulars brit.</span><span><i class="sw" style="background:#3c8f3c"></i> Tories</span><span><i class="sw" style="background:#2f5fa8"></i> Continentals</span>
+      <span><i class="sw" style="background:#2f5fa8;border-radius:50%"></i> Milice (plein = Active, creux = Underground)</span><span><i class="sw" style="background:#c9a66b;border-radius:50%"></i> War Party (idem)</span>
+      <span><i class="sw" style="background:#f4f4f4"></i> Regulars français</span><span>★ Fort (rouge brit., bleu patriote) · ● Village</span><span>Pastille verte/rouge = Support/Opposition · R = Raid · P = Propaganda · ⚓ = Blocus</span>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>3. État du jeu <span class="small">(modifiable à tout moment — c'est ici que le joueur reporte ce qu'il a fait sur le vrai plateau)</span></h2>
     <div class="warnbox" id="poolwarn"></div>
     <div style="overflow-x:auto"><table class="state" id="stateTable"></table></div>
     <div class="small" style="margin-top:6px">U = Underground, A = Active. Blocus : nombre de marqueurs Blockade sur la Ville. Le contrôle est calculé automatiquement (1.7).</div>
@@ -87,7 +103,7 @@
 
 <div>
   <section class="panel">
-    <h2>3. Carte en cours</h2>
+    <h2>4. Carte en cours</h2>
     <div class="row">
       <label>Carte jouée <input list="cardlist" id="cardIn" placeholder="n° ou titre" style="width:260px"></label>
       <label>Carte suivante (visible) <input list="cardlist" id="nextIn" placeholder="n° ou titre" style="width:200px"></label>
@@ -104,7 +120,7 @@
     </div>
   </section>
   <section class="panel">
-    <h2>4. Journal</h2>
+    <h2>5. Journal</h2>
     <div class="row"><button class="sec" id="btnClearLog">Effacer</button><label><input type="checkbox" id="showDice" checked> afficher les dés</label></div>
     <div id="log"></div>
   </section>
@@ -129,6 +145,7 @@
 <script src="events.js"></script>
 <script src="wq.js"></script>
 <script src="cards.js"></script>
+<script src="zones.js"></script>
 <script>
 (function () {
   const { FACTIONS, FR, SPACE_NAMES, CARDS, WI } = LOD;
@@ -149,8 +166,60 @@
   function say(msg, level) { g.log.push({ msg, depth: 0, level: level || 'info' }); renderLog(); }
 
   // ------------------------------------------------------------ rendu
-  function renderAll() { renderTable(); renderBoxes(); renderTotals(); renderPlayers(); renderLog(); checkPools(); }
-  function num(val, onchange, title) { const i = document.createElement('input'); i.type = 'number'; i.min = 0; i.value = val; if (title) i.title = title; i.addEventListener('change', () => { onchange(Math.max(0, parseInt(i.value) || 0)); renderTotals(); checkPools(); renderTableDerived(); }); return i; }
+  function renderAll() { renderTable(); renderBoxes(); renderTotals(); renderPlayers(); renderLog(); checkPools(); renderBoard(); }
+
+  // ------------------------------------------------------------ plateau
+  const mapImg = new Image(); let mapReady = false; mapImg.onload = () => { mapReady = true; renderBoard(); }; mapImg.src = '../map.jpg';
+  let prevSpaces = null; // état précédent pour surligner les changements
+  function renderBoard() {
+    const cv = $('board'); if (!$('showBoard').checked) { $('boardwrap').style.display = 'none'; return; } $('boardwrap').style.display = '';
+    const scale = (+$('zoom').value || 55) / 100 * 0.5; // image 2500x3864
+    cv.width = Math.round(2500 * scale); cv.height = Math.round(3864 * scale);
+    const ctx = cv.getContext('2d'); ctx.setTransform(scale, 0, 0, scale, 0, 0);
+    if (mapReady) ctx.drawImage(mapImg, 0, 0); else { ctx.fillStyle = '#e8e0cc'; ctx.fillRect(0, 0, 2500, 3864); }
+    const Z = LOD.ZONES; const st = g.state;
+    const changed = new Set(); if (prevSpaces) for (const n of SPACE_NAMES) if (JSON.stringify(prevSpaces[n]) !== JSON.stringify(st.spaces[n])) changed.add(n);
+    for (const n of SPACE_NAMES) {
+      const z = Z[n]; if (!z) continue; const s = g.sp(n); const a = z.armies;
+      if (changed.has(n)) { ctx.lineWidth = 10; ctx.strokeStyle = '#ffd400'; ctx.strokeRect(a.x1 - 8, a.y1 - 8, a.x2 - a.x1 + 16, a.y2 - a.y1 + 16); }
+      // pièces : grille dans la zone "armies"
+      const pieces = [];
+      const push = (count, draw) => { for (let i = 0; i < count; i++) pieces.push(draw); };
+      push(s.b.reg, p => cube(ctx, p, '#c8322b')); push(s.b.tor, p => cube(ctx, p, '#3c8f3c')); push(s.b.fort, p => star(ctx, p, '#c8322b'));
+      push(s.p.cont, p => cube(ctx, p, '#2f5fa8')); push(s.p.milA, p => hex(ctx, p, '#2f5fa8', true)); push(s.p.milU, p => hex(ctx, p, '#2f5fa8', false)); push(s.p.fort, p => star(ctx, p, '#2f5fa8'));
+      push(s.f.reg, p => cube(ctx, p, '#f4f4f4')); push(s.i.wpA, p => hex(ctx, p, '#c9a66b', true)); push(s.i.wpU, p => hex(ctx, p, '#c9a66b', false)); push(s.i.vil, p => disc(ctx, p, '#c9a66b'));
+      const w = a.x2 - a.x1, hgt = a.y2 - a.y1; const size = 38; const cols = Math.max(1, Math.floor(w / size)); const maxRows = Math.max(1, Math.floor(hgt / size));
+      const total = pieces.length; const rows = Math.ceil(total / cols);
+      const step = rows > maxRows ? Math.max(12, Math.floor(hgt / rows)) : size; // comprimer si trop de pièces
+      pieces.forEach((d, i) => { const c = i % cols, r = Math.floor(i / cols); d({ x: a.x1 + c * size + size / 2, y: a.y1 + r * step + size / 2, s: size - 6 }); });
+      // leaders
+      const lds = FACTIONS.filter(f => st.leaders[f].loc === n); lds.forEach((f, i) => { ctx.fillStyle = { british: '#c8322b', patriots: '#2f5fa8', french: '#6b5ca5', indians: '#8a6a2f' }[f]; ctx.font = 'bold 26px sans-serif'; ctx.fillText(st.leaders[f].name, a.x1, a.y2 + 28 + i * 28); });
+      // support / opposition
+      if (z.support && LOD.SPACES[n].pop > 0 && s.sup !== 0) { const c = z.support; const cx = (c.x1 + c.x2) / 2, cy = (c.y1 + c.y2) / 2; ctx.beginPath(); ctx.arc(cx, cy, 32, 0, Math.PI * 2); ctx.fillStyle = s.sup > 0 ? (s.sup === 2 ? '#1f7a2f' : '#7fc07f') : (s.sup === -2 ? '#b01e1e' : '#e38b8b'); ctx.fill(); ctx.strokeStyle = '#222'; ctx.lineWidth = 3; ctx.stroke(); ctx.fillStyle = '#fff'; ctx.font = 'bold 28px sans-serif'; ctx.textAlign = 'center'; ctx.fillText((s.sup > 0 ? 'S' : 'O') + (Math.abs(s.sup) === 2 ? 'A' : 'P'), cx, cy + 10); ctx.textAlign = 'left'; }
+      // contrôle
+      const ctl = g.control(n); if (z.control && ctl) { const c = z.control; ctx.fillStyle = ctl === 'british' ? 'rgba(200,50,43,.85)' : 'rgba(47,95,168,.85)'; ctx.fillRect(c.x1 + 4, c.y1 + 4, c.x2 - c.x1 - 8, c.y2 - c.y1 - 8); ctx.fillStyle = '#fff'; ctx.font = 'bold 22px sans-serif'; ctx.textAlign = 'center'; ctx.fillText(ctl === 'british' ? 'BRIT' : 'RÉB', (c.x1 + c.x2) / 2, (c.y1 + c.y2) / 2 + 8); ctx.textAlign = 'left'; }
+      // marqueurs
+      const badge = (x, y, txt, color) => { ctx.fillStyle = color; ctx.beginPath(); ctx.arc(x, y, 26, 0, Math.PI * 2); ctx.fill(); ctx.strokeStyle = '#222'; ctx.lineWidth = 3; ctx.stroke(); ctx.fillStyle = '#fff'; ctx.font = 'bold 26px sans-serif'; ctx.textAlign = 'center'; ctx.fillText(txt, x, y + 9); ctx.textAlign = 'left'; };
+      if (s.raid > 0) { const c = z.raid || a; badge((c.x1 + c.x2) / 2, (c.y1 + c.y2) / 2, 'R' + (s.raid > 1 ? s.raid : ''), '#8a3a1a'); }
+      if (s.prop > 0) { const c = z.propaganda || a; badge((c.x1 + c.x2) / 2, (c.y1 + c.y2) / 2, 'P' + (s.prop > 1 ? s.prop : ''), '#1d4f8a'); }
+      if (s.blk > 0) badge(a.x2 - 20, a.y1 + 20, '⚓' + (s.blk > 1 ? s.blk : ''), '#333');
+    }
+    // boîtes hors carte : Available / Unavailable / Casualties / Antilles
+    const line = (x, y, txt, color) => { ctx.fillStyle = color || '#222'; ctx.font = 'bold 30px sans-serif'; ctx.fillText(txt, x, y); };
+    const av = st.available, un = st.unavailable, ca = st.casualties;
+    line(1160, 300, `Available : ${av.british.reg} Reg · ${av.british.tor} Tories · ${av.british.fort} Forts`, '#7a1f1a'); line(1160, 340, `Unavailable : ${un.british.reg} Reg · ${un.british.tor} Tories`, '#7a1f1a');
+    line(120, 3360, `Available : ${av.patriots.cont} Cont · ${av.patriots.mil} Milices · ${av.patriots.fort} Forts`, '#1d3f78');
+    line(2100, 3340, `Available : ${av.french.reg} Reg`, '#4b3f86'); line(2100, 3380, `Unavailable : ${un.french.reg} Reg · ${un.french.sq} Sq.`, '#4b3f86');
+    line(230, 280, `Available : ${av.indians.wp} WP · ${av.indians.vil} Villages`, '#5a4520');
+    line(2090, 1960, `Casualties : ${ca.british.reg}+${ca.british.tor} brit. · ${ca.patriots.cont} Cont · ${ca.french.reg} fr.`, '#222');
+    line(1100, 2760, `Squadrons aux Antilles : ${st.wiSquadrons} · FNI ${st.fni}`, '#222');
+    line(1100, 2700, `Ressources — Brit. ${st.resources.british} · Patr. ${st.resources.patriots} · Fr. ${st.resources.french} · Ind. ${st.resources.indians}   |   Support ${g.totalSupport()} · Opposition ${g.totalOpposition()} · CBC ${st.cbc} · CRC ${st.crc}`, '#111');
+  }
+  function cube(ctx, p, color) { ctx.fillStyle = color; ctx.fillRect(p.x - p.s / 2, p.y - p.s / 2, p.s, p.s); ctx.strokeStyle = '#222'; ctx.lineWidth = 2; ctx.strokeRect(p.x - p.s / 2, p.y - p.s / 2, p.s, p.s); }
+  function hex(ctx, p, color, active) { ctx.beginPath(); for (let i = 0; i < 6; i++) { const a = Math.PI / 3 * i + Math.PI / 6; const x = p.x + p.s / 2 * Math.cos(a), y = p.y + p.s / 2 * Math.sin(a); if (i) ctx.lineTo(x, y); else ctx.moveTo(x, y); } ctx.closePath(); ctx.fillStyle = active ? color : '#fff'; ctx.fill(); ctx.strokeStyle = color; ctx.lineWidth = active ? 2 : 5; ctx.stroke(); ctx.strokeStyle = '#222'; ctx.lineWidth = 1; ctx.stroke(); }
+  function disc(ctx, p, color) { ctx.beginPath(); ctx.arc(p.x, p.y, p.s / 2, 0, Math.PI * 2); ctx.fillStyle = color; ctx.fill(); ctx.strokeStyle = '#222'; ctx.lineWidth = 2; ctx.stroke(); }
+  function star(ctx, p, color) { ctx.beginPath(); for (let i = 0; i < 10; i++) { const r = i % 2 ? p.s / 4.5 : p.s / 1.8; const a = Math.PI / 5 * i - Math.PI / 2; const x = p.x + r * Math.cos(a), y = p.y + r * Math.sin(a); if (i) ctx.lineTo(x, y); else ctx.moveTo(x, y); } ctx.closePath(); ctx.fillStyle = color; ctx.fill(); ctx.strokeStyle = '#222'; ctx.lineWidth = 2; ctx.stroke(); }
+  function num(val, onchange, title) { const i = document.createElement('input'); i.type = 'number'; i.min = 0; i.value = val; if (title) i.title = title; i.addEventListener('change', () => { onchange(Math.max(0, parseInt(i.value) || 0)); renderTotals(); checkPools(); renderTableDerived(); renderBoard(); }); return i; }
   function renderTable() {
     const t = $('stateTable'); t.innerHTML = '';
     const hdr = document.createElement('tr');
@@ -162,7 +231,7 @@
       td(`${n} <small>${{ city: 'Ville', colony: 'Colonie', reserve: 'Réserve', wi: 'Antilles' }[info.type]}</small>`).className = 'name';
       td(String(info.pop));
       td('').className = 'ctl-cell';
-      if (info.pop > 0) { const sel = document.createElement('select'); for (const [v, l] of LEVELS) { const o = document.createElement('option'); o.value = v; o.textContent = l; if (v === s.sup) o.selected = true; sel.appendChild(o); } sel.addEventListener('change', () => { s.sup = +sel.value; renderTotals(); }); td(sel); } else td('<span class="small">toujours Neutre</span>');
+      if (info.pop > 0) { const sel = document.createElement('select'); for (const [v, l] of LEVELS) { const o = document.createElement('option'); o.value = v; o.textContent = l; if (v === s.sup) o.selected = true; sel.appendChild(o); } sel.addEventListener('change', () => { s.sup = +sel.value; renderTotals(); renderBoard(); }); td(sel); } else td('<span class="small">toujours Neutre</span>');
       td(num(s.b.reg, v => s.b.reg = v)); td(num(s.b.tor, v => s.b.tor = v)); td(num(s.b.fort, v => s.b.fort = v));
       td(num(s.p.cont, v => s.p.cont = v)); td(num(s.p.milU, v => s.p.milU = v)); td(num(s.p.milA, v => s.p.milA = v)); td(num(s.p.fort, v => s.p.fort = v));
       td(num(s.f.reg, v => s.f.reg = v));
@@ -248,7 +317,7 @@
     advance(undefined);
   }
   function advance(answer) {
-    let r;
+    let r; prevSpaces = JSON.parse(JSON.stringify(g.state.spaces));
     try { r = gen.next(answer); } catch (e) { say('ERREUR : ' + e.message, 'warn'); console.error(e); gen = null; renderAll(); return; }
     renderAll();
     if (r.done) {
@@ -319,6 +388,8 @@
   $('btnUndo').onclick = () => { if (!history.length) { alert('Rien à annuler.'); return; } g.restore(history.pop()); gen = null; hidePause(); say('Dernière carte annulée : état restauré', 'warn'); renderAll(); save(); };
   $('btnClearLog').onclick = () => { g.log = []; renderLog(); };
   $('showDice').onchange = renderLog;
+  $('zoom').oninput = renderBoard; $('showBoard').onchange = renderBoard;
+  $('board').addEventListener('click', e => { const rect = e.target.getBoundingClientRect(); const scale = (+$('zoom').value || 55) / 100 * 0.5; const x = (e.clientX - rect.left) / scale, y = (e.clientY - rect.top) / scale; for (const n of SPACE_NAMES) { const z = LOD.ZONES[n]; if (!z) continue; const a = z.armies; if (x >= a.x1 - 40 && x <= a.x2 + 40 && y >= a.y1 - 40 && y <= a.y2 + 60) { const tr = document.querySelector(`tr[data-space="${n}"]`); if (tr) { tr.scrollIntoView({ behavior: 'smooth', block: 'center' }); tr.style.outline = '3px solid #ffd400'; setTimeout(() => tr.style.outline = '', 1500); } break; } } });
   $('cardIn').addEventListener('input', renderCard);
   if (!load()) { $('seed').value = Math.floor(Math.random() * 1e9); newGame('people_numerous_armed'); } else renderAll();
   renderCard();
